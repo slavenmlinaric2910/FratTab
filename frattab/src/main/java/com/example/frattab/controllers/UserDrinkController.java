@@ -17,21 +17,11 @@ public class UserDrinkController {
 
     @GetMapping("/")
     public String getHomePage(Model model) {
-        // Create some random members (in a real application, this would be fetched from a database)
-        List<Member> members = generateRandomMembers(100);  // Generate 100 random members
-        List<Drink> drinks = Arrays.asList(
-            new Drink("Oettinger", 0.60),
-            new Drink("Wasser", 0.85),
-            new Drink("Normales Bier", 1.00),
-            new Drink("Alkoholfreies Bier", 1.10),
-            new Drink("Weizen", 1.20),
-            new Drink("Premium Bier", 1.30),
-            new Drink("Softdrinks", 1.65),
-            new Drink("Äppler", 2.00),
-            new Drink("Flasche Wein", 6.00)
-        );
-        
-        model.addAttribute("drinks", drinks);
+        // Create some random members (in a real application, this would be fetched from
+        // a database)
+        List<Member> members = generateRandomMembers(100); // Generate 100 random members
+
+        // model.addAttribute("drinks", drinks);
         model.addAttribute("members", members);
         return "./index";
     }
@@ -40,9 +30,11 @@ public class UserDrinkController {
     private List<Member> generateRandomMembers(int count) {
         List<Member> members = new ArrayList<>();
         Random random = new Random();
-        String[] firstNames = {"John", "Jane", "Alex", "Max", "Emily", "Anna", "David", "Sophia", "Daniel", "Grace"};
-        String[] lastNames = {"Smith", "Johnson", "Brown", "Williams", "Jones", "Davis", "Miller", "Wilson", "Moore", "Taylor"};
-        String[] nickNames = {"CoolGuy", "SuperWoman", "Speedster", "Ace", "Champ", "Warrior", "Master", "Thunder", "King", "Queen"};
+        String[] firstNames = { "John", "Jane", "Alex", "Max", "Emily", "Anna", "David", "Sophia", "Daniel", "Grace" };
+        String[] lastNames = { "Smith", "Johnson", "Brown", "Williams", "Jones", "Davis", "Miller", "Wilson", "Moore",
+                "Taylor" };
+        String[] nickNames = { "CoolGuy", "SuperWoman", "Speedster", "Ace", "Champ", "Warrior", "Master", "Thunder",
+                "King", "Queen" };
 
         for (int i = 0; i < count; i++) {
             String firstName = firstNames[random.nextInt(firstNames.length)];
