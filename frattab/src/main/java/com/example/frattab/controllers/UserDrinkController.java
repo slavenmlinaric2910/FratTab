@@ -1,7 +1,6 @@
 package com.example.frattab.controllers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -42,7 +41,7 @@ public class UserDrinkController {
             String nickName = nickNames[random.nextInt(nickNames.length)];
             String email = (firstName.toLowerCase() + "." + lastName.toLowerCase() + "@example.com").toLowerCase();
             Member member = new Member();
-            member.setId(i + 1); // Set a unique ID for each member
+            member.setId((long) (i + 1)); // Set a unique ID for each member
             member.setFirstName(firstName);
             member.setLastName(lastName);
             member.setNickName(nickName);
