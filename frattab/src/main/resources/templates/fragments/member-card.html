@@ -1,6 +1,6 @@
 <!-- src/main/resources/templates/fragments/member-card.html -->
 <div th:fragment="card(member)" class="card h-100 shadow-sm bg-light clickable-card" style="min-height: 120px;">
     <div class="card-body d-flex align-items-center justify-content-center p-2">
-        <h2 class="card-title fw-bold text-center m-0" th:text="${member.name}">Member Name</h2>
+        <h2 class="card-title fw-bold text-center m-0" th:text="${member.firstName + ' ' + member.lastName}">Member Name</h2>
     </div>
 </div>

@@ -23,7 +23,6 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers(
                                                                 "/",
-                                                                "/home",
                                                                 "/login",
                                                                 "/css/**",
                                                                 "/js/**",
