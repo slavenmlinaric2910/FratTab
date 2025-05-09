@@ -21,7 +21,7 @@
                                 <td th:text="${drink.name}" class="custom-modal-text">Drink Name</td> <!-- Custom text size -->
                                 <td th:text="${drink.price} + ' €'" class="custom-modal-text">Price</td> <!-- Custom text size -->
                                 <td>
-                                    <div class="input-group">
+                                    <div class="input-group" style="max-width: 150px;">
                                         <button class="btn btn-outline-secondary decrement" type="button">-</button>
                                         <input type="text" class="form-control text-center amount-input" value="0" readonly>
                                         <button class="btn btn-outline-secondary increment" type="button">+</button>
