@@ -1,1 +1,384 @@
-<h1>Dashboard</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:replace="fragments/layout/head :: head" pageTitle="Fraternity Beer Dashboard">
+    </th:block>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar d-none d-md-block">
+                <div class="logo">BEER TRACKER</div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#members" data-bs-toggle="modal">
+                            <i class="fas fa-users"></i> Members
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#drinks" data-bs-toggle="modal">
+                            <i class="fas fa-beer"></i> Drinks
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#delivery" data-bs-toggle="modal">
+                            <i class="fas fa-truck"></i> Delivery
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#reports">
+                            <i class="fas fa-chart-bar"></i> Reports
+                        </a>
+                    </li>
+                    <li class="nav-item mt-4">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-10 ms-sm-auto main-content">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#quickAddModal">
+                            <i class="fas fa-plus"></i> Quick Add
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card stat-card">
+                            <div class="value">42</div>
+                            <div class="label">Active Members</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card">
+                            <div class="value">128</div>
+                            <div class="label">Beers This Week</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card">
+                            <div class="value">24</div>
+                            <div class="label">Different Brands</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card">
+                            <div class="value">$327</div>
+                            <div class="label">Monthly Spend</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="row mt-4">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                Recent Consumption
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Member</th>
+                                                <th>Drink</th>
+                                                <th>Time</th>
+                                                <th>Qty</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>John D.</td>
+                                                <td>IPA</td>
+                                                <td>10 min ago</td>
+                                                <td>1</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mike S.</td>
+                                                <td>Lager</td>
+                                                <td>25 min ago</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Alex B.</td>
+                                                <td>Stout</td>
+                                                <td>42 min ago</td>
+                                                <td>1</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Chris T.</td>
+                                                <td>Pilsner</td>
+                                                <td>1 hour ago</td>
+                                                <td>3</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Steve R.</td>
+                                                <td>Ale</td>
+                                                <td>2 hours ago</td>
+                                                <td>2</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                Inventory Status
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <h6 class="d-flex justify-content-between">
+                                        <span>IPA</span>
+                                        <span>12/24</span>
+                                    </h6>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar bg-dark" role="progressbar" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <h6 class="d-flex justify-content-between">
+                                        <span>Lager</span>
+                                        <span>18/36</span>
+                                    </h6>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar bg-dark" role="progressbar" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <h6 class="d-flex justify-content-between">
+                                        <span>Stout</span>
+                                        <span>6/12</span>
+                                    </h6>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar bg-dark" role="progressbar" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <h6 class="d-flex justify-content-between">
+                                        <span>Pilsner</span>
+                                        <span>3/24</span>
+                                    </h6>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar bg-dark" role="progressbar" style="width: 12.5%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary w-100 mt-2">Order More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Member Modal -->
+    <div class="modal fade" id="members" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Manage Members</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Add New Member</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Member Name">
+                            <button class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6>Current Members</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            John Doe
+                            <span class="badge bg-dark rounded-pill">Active</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Mike Smith
+                            <span class="badge bg-dark rounded-pill">Active</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Alex Brown
+                            <span class="badge bg-secondary rounded-pill">Inactive</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Chris Taylor
+                            <span class="badge bg-dark rounded-pill">Active</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Drink Modal -->
+    <div class="modal fade" id="drinks" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Manage Drinks</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Add New Drink</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Drink Name">
+                            <input type="number" class="form-control" placeholder="Initial Qty"
+                                style="max-width: 100px;">
+                            <button class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6>Current Drinks</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            IPA
+                            <span class="badge bg-dark rounded-pill">12 left</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Lager
+                            <span class="badge bg-dark rounded-pill">18 left</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Stout
+                            <span class="badge bg-dark rounded-pill">6 left</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Pilsner
+                            <span class="badge bg-danger rounded-pill">3 left</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delivery Modal -->
+    <div class="modal fade" id="delivery" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Record Delivery</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Select Drink</label>
+                        <select class="form-select">
+                            <option>IPA</option>
+                            <option>Lager</option>
+                            <option>Stout</option>
+                            <option>Pilsner</option>
+                            <option>Ale</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantity Delivered</label>
+                        <input type="number" class="form-control" placeholder="24">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Supplier</label>
+                        <input type="text" class="form-control" placeholder="Beer Co.">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Cost</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" placeholder="45.00">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Record Delivery</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Add Modal -->
+    <div class="modal fade" id="quickAddModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Quick Add Consumption</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Member</label>
+                        <select class="form-select">
+                            <option>John Doe</option>
+                            <option>Mike Smith</option>
+                            <option>Alex Brown</option>
+                            <option>Chris Taylor</option>
+                            <option>Steve Rogers</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Drink</label>
+                        <select class="form-select">
+                            <option>IPA</option>
+                            <option>Lager</option>
+                            <option>Stout</option>
+                            <option>Pilsner</option>
+                            <option>Ale</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" class="form-control" value="1" min="1">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Record Consumption</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
