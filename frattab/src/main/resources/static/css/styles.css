@@ -1,0 +1,50 @@
+.clickable-card {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.clickable-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1) !important;
+}
+.amount-input {
+    max-width: 50px;
+    font-size: 1.5rem !important;
+}
+
+    /* Custom Modal Size (70% of screen width) */
+    .custom-modal-size {
+        max-width: 70% !important; /* Adjust the width to 70% */
+    }
+
+    /* Custom Font Size for Modal Title and Body */
+    .custom-modal-title {
+        font-size: 1.8rem !important; /* Increase font size for the modal title */
+    }
+
+    .custom-modal-header {
+        font-size: 1.7rem !important; /* Increase font size for table headers */
+    }
+
+    .custom-modal-text {
+        font-size: 1.5rem !important; /* Increase font size for drink names, prices, and amounts */
+    }
+
+    /* Optional: Make the modal body taller if needed */
+    .modal-body {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .modal-footer .btn {
+        font-size: 1.5rem !important; /* Larger font size */
+        padding: 12px 30px !important; /* Increase padding to make buttons bigger */
+    }
+
+
+    .search-bar {
+        margin-bottom: 20px;
+        width: 100%;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
