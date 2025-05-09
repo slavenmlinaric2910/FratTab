@@ -1,0 +1,40 @@
+<div th:fragment="quickAddModal" class="modal fade" id="quickAddModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Quick Add Consumption</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Member</label>
+                    <select class="form-select">
+                        <option>John Doe</option>
+                        <option>Mike Smith</option>
+                        <option>Alex Brown</option>
+                        <option>Chris Taylor</option>
+                        <option>Steve Rogers</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Drink</label>
+                    <select class="form-select">
+                        <option>IPA</option>
+                        <option>Lager</option>
+                        <option>Stout</option>
+                        <option>Pilsner</option>
+                        <option>Ale</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Quantity</label>
+                    <input type="number" class="form-control" value="1" min="1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Record Consumption</button>
+            </div>
+        </div>
+    </div>
+</div>
