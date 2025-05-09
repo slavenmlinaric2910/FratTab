@@ -1,0 +1,125 @@
+## General ignores ##
+*.class
+*.log
+*.ctxt
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+*.swp
+.DS_Store
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.bak
+*.tmp
+*.orig
+*.rej
+*.sublime-workspace
+*.sublime-project
+*.project
+*.classpath
+.settings/
+bin/
+build/
+out/
+target/
+dist/
+node_modules/
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+*.cache
+*.seed
+*.pid
+*.pid.lock
+*.pem
+*.cer
+*.key
+*.crt
+*.csr
+*.der
+
+## IDE Specific ##
+### Eclipse ###
+.metadata/
+*.pydevproject
+### NetBeans ###
+nbproject/private/
+### VS Code ###
+.history/
+
+## Build tools ##
+### Maven ###
+**/pom.xml.tag
+**/pom.xml.releaseBackup
+**/pom.xml.versionsBackup
+**/pom.xml.next
+**/release.properties
+**/dependency-reduced-pom.xml
+**/buildNumber.properties
+.mvn/
+mvnw
+mvnw.cmd
+.mvn/wrapper/
+
+### Gradle ###
+.gradle/
+**/build/
+!**/src/**/build/
+gradle-app.setting
+!gradle-wrapper.jar
+**/gradlew
+**/gradlew.bat
+
+## Spring Boot specific ##
+**/application*.properties
+**/application*.yml
+**/application*.yaml
+!**/src/main/resources/application*.properties
+!**/src/main/resources/application*.yml
+!**/src/main/resources/application*.yaml
+**/spring-boot-devtools.properties
+
+## Logs ##
+**/*.log
+**/logs/
+**/*.log.*
+**/log/
+**/*.log.*
+
+## Database ##
+**/*.db
+**/*.sqlite
+**/h2-db/
+**/data/
+**/derby.log
+
+## Docker ##
+docker-compose.override.yml
+**/docker-compose*.yml
+!**/deployment/docker-compose*.yml
+**/.dockerignore
+**/Dockerfile
+**/Dockerfile-*
+
+## Kubernetes ##
+**/k8s/
+**/*.kubeconfig
+
+## Test coverage ##
+**/coverage/
+**/*.lcov
+**/.nyc_output/
+
+## Frontend (if applicable) ##
+**/dist/
+**/node_modules/
+**/npm-debug.log*
