@@ -96,7 +96,10 @@ public class DrinkLogServiceImpl implements DrinkLogService {
         drinkLog.setTotal(totalLogAmount);
 
         // Persist the DrinkLog along with its cascade‑persisted DrinkQty items
-        drinkLogRepository.save(drinkLog);
+        DrinkLog saveLog = drinkLogRepository.save(drinkLog);
+        saveLog.getDrinkQuantities().forEach(drinkQty -> {
+            drinksService.updateDrinkQty(drinkQty.getDrink().getId(), drinkQty.getQty());
+        }) ;
     }
 
     /**
