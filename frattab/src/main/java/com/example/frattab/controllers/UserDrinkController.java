@@ -2,18 +2,25 @@ package com.example.frattab.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.frattab.models.Drink;
 import com.example.frattab.models.Member;
 import com.example.frattab.repositories.DrinkRepository;
 import com.example.frattab.repositories.MemberRepository;
+import com.example.frattab.services.DrinksService;
+import com.example.frattab.services.MembersService;
 
 @Controller
 public class UserDrinkController {
-
+    @Autowired
+    private MembersService membersService;
+    @Autowired
+    private DrinksService drinksService;
     private final MemberRepository memberRepository;
     private final DrinkRepository drinkRepository;
 
@@ -24,17 +31,27 @@ public class UserDrinkController {
     }
 
     @GetMapping("/")
-    public String getHomePage(Model model) {
-        // Fetch real members from the database
-        List<Member> members = memberRepository.findAll();  // Get all members from the DB
+    public String redirectToMembersPage() {
+        return "redirect:/members";
+    }
 
-        // Fetch real drinks from the database
-        List<Drink> drinks = drinkRepository.findAll();  // Get all drinks from the DB
-
-        // Add the members and drinks to the model
+    @GetMapping("/members")
+    public String getMembersPage(Model model) {
+        List<Member> members = memberRepository.findAll(); 
+        List<Drink> drinks = drinkRepository.findAll();  
         model.addAttribute("members", members);
         model.addAttribute("drinks", drinks);
+        return "./index";
+    }
 
-        return "./index";  // Return the index page
+    @GetMapping("/members/{memberId}")
+    public String showDrinkSelection(@PathVariable Long memberId, Model model) {
+        Member member = membersService.getMemberById(memberId);
+        List<Drink> drinks = drinksService.getAllDrinks();
+
+        model.addAttribute("member", member);
+        model.addAttribute("drinks", drinks);
+
+        return "./drink-selection";
     }
 }

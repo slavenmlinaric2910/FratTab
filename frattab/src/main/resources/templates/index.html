@@ -28,12 +28,13 @@
     <main class="container-fluid flex-grow-1 px-3 px-md-4">
         <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 row-cols-xxl-8 g-2 g-md-3">
             <div class="col mb-2" th:each="member : ${members}">
-                <div th:replace="~{fragments/member-card :: card(member=${member})}"></div>
+                <a th:href="@{/members/{id}(id=${member.id})}" style="text-decoration: none; color: inherit;">
+                    <div th:replace="~{fragments/member-card :: card(member=${member})}"></div>
+                </a>
             </div>
         </div>
     </main>
 
-    <div th:replace="~{fragments/drink-logger-modal :: drinkLoggerModal}"></div>
 
     <footer class="bg-dark text-white text-center py-3 mt-auto">
         <p>&copy; 2025 Frattab. All rights reserved.</p>
