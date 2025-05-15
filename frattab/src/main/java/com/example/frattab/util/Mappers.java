@@ -31,8 +31,6 @@ public class Mappers {
     public Drink drinkDtoToDrink(DrinkDto drinkDto) {
         Drink drink = new Drink();
         drink.setName(drinkDto.getName());
-        drink.setQty(drinkDto.getQty());
-        drink.setPrice(drinkDto.getPrice());
         return drink;
     }
 

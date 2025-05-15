@@ -63,7 +63,7 @@ public class DashboardController {
     @PostMapping("/dashboard/quick-add")
     public String addQuickConsumption(@ModelAttribute QuickConsumptionDto quickConsumptionDto,
             RedirectAttributes redirectAttributes) {
-        System.out.println("quickCons" + quickConsumptionDto);
+        redirectAttributes.addFlashAttribute("response", drinkLogService.quickDrinkLog(quickConsumptionDto));
 
         return "redirect:/dashboard";
     }

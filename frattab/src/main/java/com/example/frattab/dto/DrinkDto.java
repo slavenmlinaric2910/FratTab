@@ -6,6 +6,6 @@ import lombok.Data;
 public class DrinkDto {
     private Long id;
     private String name;
-    private int qty;
+    private Integer qty;
     private double price;
 }
