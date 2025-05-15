@@ -1,6 +1,7 @@
 package com.example.frattab.services;
 
-import com.example.frattab.dto.DeliveryDto;
+import com.example.frattab.dto.DeliveryRequestDto;
+import com.example.frattab.dto.DeliveryRequestDto;
 import com.example.frattab.dto.DrinkDto;
 import com.example.frattab.dto.ResponseDto;
 import com.example.frattab.models.Drink;
@@ -11,5 +12,5 @@ public interface DrinksService {
 
     ResponseDto addNewDrink(DrinkDto drinkDto);
 
-    ResponseDto addDrinkDelivery(DeliveryDto deliveryDto);
+    ResponseDto addDrinkDelivery(DeliveryRequestDto deliveryDto);
 }

@@ -5,18 +5,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.frattab.dto.DeliveryDto;
+import com.example.frattab.dto.DeliveryRequestDto;
 import com.example.frattab.dto.DrinkDto;
 import com.example.frattab.dto.ResponseDto;
+import com.example.frattab.models.Delivery;
 import com.example.frattab.models.Drink;
 import com.example.frattab.services.DrinksService;
 import com.example.frattab.util.Mappers;
+import com.example.frattab.repositories.DeliveryRepository;
 import com.example.frattab.repositories.DrinkRepository;
 
 @Service
 public class DrinksServiceImpl implements DrinksService {
     @Autowired
     private DrinkRepository drinkRepository;
+    @Autowired
+    private DeliveryRepository deliveryRepository;
     @Autowired
     private Mappers mappers;
 
@@ -35,9 +39,21 @@ public class DrinksServiceImpl implements DrinksService {
     }
 
     @Override
-    public ResponseDto addDrinkDelivery(DeliveryDto deliveryDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addDrinkDelivery'");
+    public ResponseDto addDrinkDelivery(DeliveryRequestDto deliveryDto) {
+        ResponseDto responseDto = new ResponseDto();
+        Drink drink = drinkRepository.findById(deliveryDto.getDrinkId())
+                .orElseThrow(() -> new RuntimeException("Drink not found"));
+        int updateQty = drink.getQty() + deliveryDto.getQty();
+        drink.setQty(updateQty);
+        drinkRepository.save(drink);
+        Delivery delivery = new Delivery();
+        delivery.setDrink(drink);
+        delivery.setQty(deliveryDto.getQty());
+        delivery.setTotal(drink.getPrice() * deliveryDto.getQty());
+        deliveryRepository.save(delivery);
+        responseDto.setStatus("success");
+        responseDto.setMessage("Delivery of " + deliveryDto.getQty() + " " + drink.getName() + "(s) has been added");
+        return responseDto;
     }
 
 }

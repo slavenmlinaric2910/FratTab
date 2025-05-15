@@ -1,4 +1,5 @@
 package com.example.frattab.services.impl;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,6 +43,12 @@ public class MembersServiceImpl implements MembersService {
     public Member getMemberById(Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found with id: " + id));
+    }
+
+    @Override
+    public List<MemberDto> getAllMembers() {
+        return memberRepository.findAll().stream()
+                .map(member -> mappers.memberToMemberDto(member)).collect(Collectors.toList());
     }
 
 }

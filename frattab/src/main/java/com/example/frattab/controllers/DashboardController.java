@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.frattab.dto.DeliveryDto;
+import com.example.frattab.dto.DeliveryRequestDto;
 import com.example.frattab.dto.DrinkDto;
 import com.example.frattab.dto.MemberDto;
+import com.example.frattab.dto.QuickConsumptionDto;
 import com.example.frattab.services.MembersService;
 import com.example.frattab.services.DrinksService;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ public class DashboardController {
     @GetMapping("/dashboard")
     public String getDashboardPage(Model model) {
         model.addAttribute("drinks", drinksService.getAllDrinks());
+        model.addAttribute("members", membersService.getAllMembers());
         return "./dashboard";
     }
 
@@ -48,8 +50,16 @@ public class DashboardController {
     }
 
     @PostMapping("/dashboard/delivery")
-    public String addDeliveredDrinks(@ModelAttribute DeliveryDto deliveryDto, RedirectAttributes redirectAttributes) {
-        // TODO: process POST request
+    public String addDeliveredDrinks(@ModelAttribute DeliveryRequestDto deliveryDto,
+            RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("response", drinksService.addDrinkDelivery(deliveryDto));
+        return "redirect:/dashboard";
+    }
+
+    @PostMapping("/dashboard/quick-add")
+    public String addQuickConsumption(@ModelAttribute QuickConsumptionDto quickConsumptionDto,
+            RedirectAttributes redirectAttributes) {
+        System.out.println("quickCons" + quickConsumptionDto);
 
         return "redirect:/dashboard";
     }

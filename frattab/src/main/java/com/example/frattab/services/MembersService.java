@@ -13,4 +13,6 @@ public interface MembersService {
     Page<Member> getAllMembers(int page);
 
      Member getMemberById(Long id);
+
+    List<MemberDto> getAllMembers();
 }
