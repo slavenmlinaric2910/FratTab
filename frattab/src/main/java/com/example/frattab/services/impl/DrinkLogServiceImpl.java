@@ -123,6 +123,10 @@ public class DrinkLogServiceImpl implements DrinkLogService {
 
         // Pre-populate one DrinkQtyDto per drink, qty default to 0
         for (Drink drink : drinks) {
+            double roundedPrice = BigDecimal.valueOf(drink.getPrice())
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+            drink.setPrice(roundedPrice);
             DrinkQtyDto drinkQtyDto = new DrinkQtyDto();
             drinkQtyDto.setDrinkId(drink.getId());
             drinkQtyDto.setQty(0);
