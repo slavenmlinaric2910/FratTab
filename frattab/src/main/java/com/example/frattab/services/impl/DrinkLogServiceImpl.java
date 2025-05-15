@@ -1,11 +1,15 @@
 // src/main/java/com/example/frattab/services/impl/DrinkLogServiceImpl.java
 package com.example.frattab.services.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.frattab.dto.DrinkLogDto;
 import com.example.frattab.dto.DrinkQtyDto;
+import com.example.frattab.dto.ResponseDto;
 import com.example.frattab.models.Drink;
 import com.example.frattab.models.DrinkLog;
 import com.example.frattab.models.DrinkQty;
@@ -21,36 +25,39 @@ import jakarta.transaction.Transactional;
 @Service
 public class DrinkLogServiceImpl implements DrinkLogService {
 
-    @Autowired private MemberRepository memberRepo;
-    @Autowired private DrinkRepository drinkRepo;
-    @Autowired private DrinkLogRepository logRepo;
+    @Autowired
+    private MemberRepository memberRepo;
+    @Autowired
+    private DrinkRepository drinkRepo;
+    @Autowired
+    private DrinkLogRepository logRepo;
 
     @Override
-    @Transactional
-    public void saveDrinkLog(DrinkLogDto dto) {
-        Member member = memberRepo.findById(dto.getMemberId())
-            .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+    public DrinkLogDto setDrinkLogDto(List<Drink> drinks, Long memberId) {
+        DrinkLogDto drinkLogDto = new DrinkLogDto();
+        List<DrinkQtyDto> drinkQtyList = drinks.stream().map(drink -> {
+            DrinkQtyDto dq = new DrinkQtyDto();
+            dq.setDrinkId(drink.getId());
+            dq.setQty(0);
+            return dq;
+        }).collect(Collectors.toList());
+        drinkLogDto.setDrinkQuantities(drinkQtyList);
+        drinkLogDto.setMemberId(memberId);
+        return drinkLogDto;
+    }
 
-        DrinkLog log = new DrinkLog();
-        log.setMember(member);
+    @Override
+    public ResponseDto logDrink(DrinkLogDto drinkLogDto) {
+        ResponseDto response = new ResponseDto();
+        Member member = memberRepo.findById(drinkLogDto.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
 
-        double total = 0;
-        for (DrinkQtyDto qDto : dto.getDrinkQuantities()) {
-            if (qDto.getQty() <= 0) continue;
+        List<DrinkQty> drinks = drinkLogDto.getDrinkQuantities().stream().map(drinkQtyDto -> {
+            DrinkQty drinkQty = new DrinkQty();
+            drinkQty.setDrink(drinkRepository.findById(drinkQtyDto.getDrinkId())
+                    .orElseThrow(() -> new EntityNotFoundException("Drink not found")).getPrice());
+        }).collect(Collectors.toList());
 
-            Drink drink = drinkRepo.findById(qDto.getDrinkId())
-                .orElseThrow(() -> new EntityNotFoundException("Drink not found"));
-
-            DrinkQty dq = new DrinkQty();
-            dq.setDrink(drink);
-            dq.setQty(qDto.getQty());
-            dq.setTotal(drink.getPrice() * qDto.getQty());
-
-            log.addDrinkQty(dq);
-            total += dq.getTotal();
-        }
-
-        log.setTotal(total);
-        logRepo.save(log);
+        return response;
     }
 }

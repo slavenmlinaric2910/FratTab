@@ -45,38 +45,22 @@ public class UserDrinkController {
 
     @GetMapping("/members")
     public String getMembersPage(Model model) {
-        List<Member> members = memberRepository.findAll(); 
-        List<Drink> drinks = drinkRepository.findAll();  
+        List<Member> members = memberRepository.findAll();
+        List<Drink> drinks = drinkRepository.findAll();
         model.addAttribute("members", members);
         model.addAttribute("drinks", drinks);
         return "./index";
     }
 
     @GetMapping("/members/{memberId}")
-public String showDrinkSelection(@PathVariable Long memberId, Model model) {
-    Member member = membersService.getMemberById(memberId);
-    List<Drink> drinks = drinksService.getAllDrinks();
-
-    DrinkLogDto drinkLogDto = new DrinkLogDto();
-
-    // Initialize    with one entry per drink, setting drinkId and qty=0
-    List<DrinkQtyDto> drinkQtyList = drinks.stream().map(drink -> {
-        DrinkQtyDto dq = new DrinkQtyDto();
-        dq.setDrinkId(drink.getId());
-        dq.setQty(0);
-        return dq;
-    }).collect(Collectors.toList());
-
-    drinkLogDto.setDrinkQuantities(drinkQtyList);
-    drinkLogDto.setMemberId(memberId);
-
-    model.addAttribute("member", member);
-    model.addAttribute("drinks", drinks);
-    model.addAttribute("drinkLogDto", drinkLogDto);
-    return "./drink-selection";
-}
-
-
+    public String showDrinkSelection(@PathVariable Long memberId, Model model) {
+        Member member = membersService.getMemberById(memberId);
+        List<Drink> drinks = drinksService.getAllDrinks();
+        model.addAttribute("member", member);
+        model.addAttribute("drinks", drinks);
+        model.addAttribute("drinkLogDto", drinkLogService.setDrinkLogDto(drinks, memberId));
+        return "./drink-selection";
+    }
 
     @PostMapping("/members/{id}/log-drinks")
     public String logDrinks(@PathVariable Long id, @ModelAttribute DrinkLogDto dto) {
@@ -85,8 +69,9 @@ public String showDrinkSelection(@PathVariable Long memberId, Model model) {
         System.out.println("Drink quantities: " + dto.getDrinkQuantities());
         System.out.println("DTOOOOOO: " + dto);
 
+        membersService.logDrinks(dto);
+
         return "redirect:/members";
     }
-
 
 }
