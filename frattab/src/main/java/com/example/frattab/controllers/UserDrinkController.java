@@ -6,12 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.frattab.dto.DrinkLogDto;
 import com.example.frattab.models.Drink;
 import com.example.frattab.models.Member;
 import com.example.frattab.repositories.DrinkRepository;
 import com.example.frattab.repositories.MemberRepository;
+import com.example.frattab.services.DrinkLogService;
 import com.example.frattab.services.DrinksService;
 import com.example.frattab.services.MembersService;
 
@@ -21,6 +25,8 @@ public class UserDrinkController {
     private MembersService membersService;
     @Autowired
     private DrinksService drinksService;
+    @Autowired
+    private DrinkLogService drinkLogService;
     private final MemberRepository memberRepository;
     private final DrinkRepository drinkRepository;
 
@@ -49,9 +55,24 @@ public class UserDrinkController {
         Member member = membersService.getMemberById(memberId);
         List<Drink> drinks = drinksService.getAllDrinks();
 
+        DrinkLogDto drinkLogDto = new DrinkLogDto();
+
         model.addAttribute("member", member);
         model.addAttribute("drinks", drinks);
-
+        model.addAttribute("drinkLogDto", drinkLogDto);
         return "./drink-selection";
     }
+
+
+    @PostMapping("/members/{id}/log-drinks")
+    public String logDrinks(@PathVariable Long id, @ModelAttribute DrinkLogDto dto) {
+        dto.setMemberId(id); // ensure ID is passed correctly
+        System.out.println("Logging drinks for member ID: " + id);
+        System.out.println("Drink quantities: " + dto.getDrinkQuantities());
+        System.out.println("DTOOOOOO: " + dto);
+
+        return "redirect:/members";
+    }
+
+
 }

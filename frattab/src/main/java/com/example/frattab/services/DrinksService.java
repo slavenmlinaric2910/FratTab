@@ -1,11 +1,11 @@
 package com.example.frattab.services;
 
-import com.example.frattab.dto.DeliveryRequestDto;
+import java.util.List;
+
 import com.example.frattab.dto.DeliveryRequestDto;
 import com.example.frattab.dto.DrinkDto;
 import com.example.frattab.dto.ResponseDto;
 import com.example.frattab.models.Drink;
-import java.util.List;
 
 public interface DrinksService {
     List<Drink> getAllDrinks();

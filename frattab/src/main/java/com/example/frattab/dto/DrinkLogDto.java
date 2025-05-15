@@ -10,3 +10,4 @@ public class DrinkLogDto {
     private Long memberId;
     private List<DrinkQtyDto> drinkQuantities;
 }
+

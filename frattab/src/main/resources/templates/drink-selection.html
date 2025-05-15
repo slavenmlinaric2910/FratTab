@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/layout/head :: head"></head>
+<head th:replace="~{fragments/layout/head :: head}"></head>
 <body>
 <header class="bg-dark text-white text-center py-4 mb-4 position-relative">
     <button class="btn btn-outline-light position-absolute start-0 top-50 translate-middle-y ms-3"
@@ -11,25 +11,31 @@
 </header>
 
 <main class="container">
-    <form th:action="@{/members/{id}/log-drinks(id=${member.id})}" method="post">
-        <input type="hidden" name="memberId" th:value="${member.id}" />
+    <form th:action="@{/members/{id}/log-drinks(id=${member.id})}" method="post" th:object="${drinkLogDto}">
+        <input type="hidden" th:field="*{memberId}" />
+
         <div class="row g-3">
             <div class="col-md-4" th:each="drink, iterStat : ${drinks}">
-            <div class="card text-center p-3 drink-card clickable-card" style="cursor: pointer;">
-                <h5 class="card-title fw-bold" th:text="${drink.name}">Drink Name</h5>
-                <p class="card-subtitle text-muted" th:text="${drink.price} + ' €'">Price</p>
-                <div class="input-group justify-content-center mt-2">
-                    <button class="btn btn-outline-secondary decrement" type="button">-</button>
-                    <input type="text" class="form-control text-center amount-input"
-                        th:name="'drinkQuantities[' + ${iterStat.index} + '].qty'"
-                        value="0" readonly>
-                    <button class="btn btn-outline-secondary increment" type="button">+</button>
+                <div class="card text-center p-3 drink-card clickable-card" style="cursor: pointer;">
+                    <h5 class="card-title fw-bold" th:text="${drink.name}">Drink Name</h5>
+                    <p class="card-subtitle text-muted" th:text="${drink.price} + ' €'">Price</p>
+                    <div class="input-group justify-content-center mt-2">
+                        <button class="btn btn-outline-secondary decrement" type="button">-</button>
+                        <input type="text" class="form-control text-center amount-input"
+                            th:field="*{drinkQuantities[__${iterStat.index}__].qty}" value="0" readonly>
+                        <button class="btn btn-outline-secondary increment" type="button">+</button>
+                    </div>
+                    <div th:text="${drink.id}">
+
+                    </div>
+            <div th:text="${id}">
+
+                    </div>
+                    <input type="hidden" th:field="*{drinkQuantities[__${iterStat.index}__].drinkId}" th:value="${drink.id}">
                 </div>
-                <input type="hidden" th:name="'drinkQuantities[' + ${iterStat.index} + '].drinkId'" th:value="${drink.id}">
             </div>
         </div>
 
-        </div>
         <div class="text-center mt-4">
             <a href="/members" class="btn btn-secondary">Back</a>
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -41,10 +47,8 @@
     document.addEventListener('DOMContentLoaded', function () {
         console.log('Drink selection page loaded');
 
-        // Clickable card increments value
         document.querySelectorAll('.clickable-card').forEach(card => {
             card.addEventListener('click', function (e) {
-                // Avoid double-increment if increment/decrement buttons are clicked
                 if (e.target.classList.contains('btn')) return;
 
                 const input = this.querySelector('.amount-input');
@@ -52,16 +56,15 @@
                 input.value = value + 1;
             });
 
-            // Button click handlers
             card.querySelector('.increment').addEventListener('click', function (e) {
-                e.stopPropagation(); // Prevent card click
+                e.stopPropagation();
                 const input = this.parentElement.querySelector('.amount-input');
                 let value = parseInt(input.value) || 0;
                 input.value = value + 1;
             });
 
             card.querySelector('.decrement').addEventListener('click', function (e) {
-                e.stopPropagation(); // Prevent card click
+                e.stopPropagation();
                 const input = this.parentElement.querySelector('.amount-input');
                 let value = parseInt(input.value) || 0;
                 input.value = Math.max(0, value - 1);

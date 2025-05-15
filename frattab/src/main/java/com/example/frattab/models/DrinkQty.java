@@ -11,17 +11,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class DrinkQty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drink_id")
     private Drink drink;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "drink_log_id")
+    private DrinkLog drinkLog;
+
     private int qty;
     private double total;
 }
+
