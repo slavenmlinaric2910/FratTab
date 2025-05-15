@@ -56,6 +56,7 @@ public class UserDrinkController {
     model.addAttribute("member",        sel.getMember());
     model.addAttribute("drinks",        sel.getDrinks());
     model.addAttribute("drinkLogDto",   sel.getDrinkLogDto());
+
     return "drink-selection";
   }
 
@@ -64,6 +65,7 @@ public class UserDrinkController {
                           @ModelAttribute DrinkLogDto drinkLogDto) {
     drinkLogDto.setMemberId(memberId);
     drinkLogService.logDrinks(drinkLogDto);
+
     return "redirect:/members";
   }
 

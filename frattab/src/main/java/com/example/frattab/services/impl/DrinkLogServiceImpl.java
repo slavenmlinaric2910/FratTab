@@ -1,5 +1,7 @@
 package com.example.frattab.services.impl;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import com.example.frattab.dto.ResponseDto;
 import com.example.frattab.models.Drink;
 import com.example.frattab.models.DrinkLog;
 import com.example.frattab.models.DrinkQty;
+import com.example.frattab.models.Member;
 import com.example.frattab.repositories.DrinkLogRepository;
 import com.example.frattab.repositories.DrinkRepository;
 import com.example.frattab.repositories.MemberRepository;
@@ -72,19 +75,17 @@ public class DrinkLogServiceImpl implements DrinkLogService {
             // Load the Drink entity; throw if not found
             var drink = drinkRepository.findById(drinkQtyDto.getDrinkId())
                     .orElseThrow(() -> new EntityNotFoundException("Drink not found"));
-
             // Create a new DrinkQty (join entity) for this line-item
             DrinkQty drinkQty = new DrinkQty();
             drinkQty.setDrink(drink);
             drinkQty.setQty(quantity);
-
             // Compute the line‑item total and assign it
             double lineTotal = drink.getPrice() * quantity;
             drinkQty.setTotal(lineTotal);
 
+
             // Link the line‑item to the parent log (handles setting both sides)
             drinkLog.addDrinkQty(drinkQty);
-
             // Accumulate into the log’s running total
             totalLogAmount += lineTotal;
         }
@@ -111,19 +112,20 @@ public class DrinkLogServiceImpl implements DrinkLogService {
     @Override
     public DrinkSelectionDto prepareSelection(Long memberId) {
         // Fetch member and available drinks
-        var member = membersService.getMemberById(memberId);
-        var drinks = drinksService.getAllDrinks();
+        Member member = membersService.getMemberById(memberId);
+        List<Drink> drinks = drinksService.getAllDrinks();
 
         // Initialize the form‐binding DTO
         DrinkLogDto drinkLogDto = new DrinkLogDto();
         drinkLogDto.setMemberId(memberId);
 
         // Pre-populate one DrinkQtyDto per drink, qty default to 0
-        for (var drink : drinks) {
+        for (Drink drink : drinks) {
             DrinkQtyDto drinkQtyDto = new DrinkQtyDto();
             drinkQtyDto.setDrinkId(drink.getId());
             drinkQtyDto.setQty(0);
             drinkLogDto.getDrinkQuantities().add(drinkQtyDto);
+
         }
 
         // Wrap into a selection DTO
