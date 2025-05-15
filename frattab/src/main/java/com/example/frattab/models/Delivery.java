@@ -25,6 +25,7 @@ public class Delivery {
     @JoinColumn(name = "drink_id")
     private Drink drink;
     private int qty;
+    private double price;
     private double total;
     private LocalDate date = LocalDate.now();
 }

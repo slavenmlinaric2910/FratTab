@@ -49,8 +49,10 @@ public class DrinksServiceImpl implements DrinksService {
         Delivery delivery = new Delivery();
         delivery.setDrink(drink);
         delivery.setQty(deliveryDto.getQty());
-        delivery.setTotal(drink.getPrice() * deliveryDto.getQty());
+        delivery.setTotal(deliveryDto.getPrice() * deliveryDto.getQty());
         deliveryRepository.save(delivery);
+        drink.setPrice(deliveryDto.getPrice() * 0.2 + deliveryDto.getPrice());
+        drinkRepository.save(drink);
         responseDto.setStatus("success");
         responseDto.setMessage("Delivery of " + deliveryDto.getQty() + " " + drink.getName() + "(s) has been added");
         return responseDto;

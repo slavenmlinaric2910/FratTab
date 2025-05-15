@@ -6,8 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.frattab.dto.DrinkLogDto;
 import com.example.frattab.dto.DrinkQtyDto;
 import com.example.frattab.dto.DrinkSelectionDto;
+import com.example.frattab.dto.QuickConsumptionDto;
+import com.example.frattab.dto.ResponseDto;
+import com.example.frattab.models.Drink;
 import com.example.frattab.models.DrinkLog;
 import com.example.frattab.models.DrinkQty;
+import com.example.frattab.models.Member;
 import com.example.frattab.repositories.DrinkLogRepository;
 import com.example.frattab.repositories.DrinkRepository;
 import com.example.frattab.repositories.MemberRepository;
@@ -45,7 +49,7 @@ public class DrinkLogServiceImpl implements DrinkLogService {
     public void logDrinks(DrinkLogDto drinkLogDto) {
         // Fetch and validate the Member; throw if not found
         var member = memberRepository.findById(drinkLogDto.getMemberId())
-            .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
 
         // Create a new DrinkLog entity and associate with the member
         DrinkLog drinkLog = new DrinkLog();
@@ -63,7 +67,7 @@ public class DrinkLogServiceImpl implements DrinkLogService {
 
             // Load the Drink entity; throw if not found
             var drink = drinkRepository.findById(drinkQtyDto.getDrinkId())
-                .orElseThrow(() -> new EntityNotFoundException("Drink not found"));
+                    .orElseThrow(() -> new EntityNotFoundException("Drink not found"));
 
             // Create a new DrinkQty (join entity) for this line-item
             DrinkQty drinkQty = new DrinkQty();
@@ -92,10 +96,10 @@ public class DrinkLogServiceImpl implements DrinkLogService {
      * Prepares the data needed for the drink-selection page.
      * 
      * Builds a DrinkSelectionDto containing:
-     *  - Member info
-     *  - List of all available drinks
-     *  - An empty DrinkLogDto pre‑populated with DrinkQtyDto entries (qty=0)
-     *    so Thymeleaf can bind inputs by index.
+     * - Member info
+     * - List of all available drinks
+     * - An empty DrinkLogDto pre‑populated with DrinkQtyDto entries (qty=0)
+     * so Thymeleaf can bind inputs by index.
      * 
      * @param memberId the ID of the Member for whom we are selecting drinks
      * @return a DTO for rendering the selection form
@@ -124,5 +128,25 @@ public class DrinkLogServiceImpl implements DrinkLogService {
         selection.setDrinks(drinks);
         selection.setDrinkLogDto(drinkLogDto);
         return selection;
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto quickDrinkLog(QuickConsumptionDto dto) {
+        ResponseDto response = new ResponseDto();
+
+        DrinkLog drinkLog = new DrinkLog();
+        drinkLog.setMemberId(dto.getMemberId());
+        Drink drink = drinkRepository.findById(dto.getDrinkId())
+                .orElseThrow(() -> new EntityNotFoundException("Drink not found"));
+        DrinkQty drinkQty = new DrinkQty();
+        drinkQty.setDrink(drink);
+        drinkQty.setQty(dto.getQuantity());
+        drinkQty.setTotal(drink.getPrice() * dto.getQuantity());
+
+        drinkLog.addDrinkQty(drinkQty);
+        drinkLog.setTotal(drinkQty.getTotal());
+
+        return response;
     }
 }
