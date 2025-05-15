@@ -25,13 +25,7 @@
                             th:field="*{drinkQuantities[__${iterStat.index}__].qty}" value="0" readonly>
                         <button class="btn btn-outline-secondary increment" type="button">+</button>
                     </div>
-                    <div th:text="${drink.id}">
-
-                    </div>
-            <div th:text="${id}">
-
-                    </div>
-                    <input type="hidden" th:field="*{drinkQuantities[__${iterStat.index}__].drinkId}" th:value="${drink.id}">
+                    <input type="hidden" th:field="*{drinkQuantities[__${iterStat.index}__].drinkId}" />
                 </div>
             </div>
         </div>
