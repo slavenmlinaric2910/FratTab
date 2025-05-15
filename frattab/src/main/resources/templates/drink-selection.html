@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout/head :: head}"></head>
-<body>
-    <header class="bg-dark text-white text-center py-4 mb-4 position-relative">
-        <button class="btn btn-outline-light position-absolute start-0 top-50 translate-middle-y ms-3"
-                onclick="history.back()">← Back</button>
-        <h2 th:text="'Select Drinks for ' + ${member.firstName} + ' ' + ${member.lastName}"></h2>
-    </header>
-
+<body class="bg-light">
+  <header class="bg-dark text-white text-center py-4 mb-4 position-relative">
+    <button class="btn btn-outline-light position-absolute start-0 top-50 translate-middle-y ms-3"
+            onclick="history.back()">← Back</button>
+    <h2 class="h4 mb-0" th:text="'Select Drinks for ' + ${member.firstName} + ' ' + ${member.lastName}"></h2>
+  </header>
 
   <main class="container">
     <form th:action="@{/members/{id}/log-drinks(id=${member.id})}"
           th:object="${drinkLogDto}" method="post">
-      <div class="row g-3">
-        <div class="col-md-4" th:each="drink, stat : ${drinks}">
-          <div class="card clickable-card" style="…">
-            <h5 th:text="${drink.name}">Name</h5>
-            <p th:text="${drink.price} + ' €'">Price</p>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col" th:each="drink, stat : ${drinks}">
+          <div class="card h-100 text-center shadow-sm clickable-card">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title mb-2" th:text="${drink.name}"></h5>
+              <p class="card-text text-muted mb-4" th:text="${drink.price} + ' €'"></p>
 
-            <div class="input-group">
-              <button class="decrement" type="button">-</button>
-              <input class="amount-input" readonly
-                     th:field="*{drinkQuantities[__${stat.index}__].qty}" />
-              <button class="increment" type="button">+</button>
+              <div class="mt-auto">
+                <div class="input-group justify-content-center">
+                  <button class="btn btn-outline-secondary decrement" type="button">−</button>
+                  <input type="text"
+                         class="form-control text-center amount-input px-2"
+                         readonly
+                         th:field="*{drinkQuantities[__${stat.index}__].qty}" />
+                  <button class="btn btn-outline-secondary increment" type="button">+</button>
+                </div>
+                <input type="hidden"
+                       th:field="*{drinkQuantities[__${stat.index}__].drinkId}" />
+              </div>
             </div>
-            <input type="hidden" th:field="*{drinkQuantities[__${stat.index}__].drinkId}" />
           </div>
         </div>
       </div>
 
       <div class="text-center mt-4">
-        <a href="/members" class="btn btn-secondary">Back</a>
+        <a href="/members" class="btn btn-secondary me-2">Back</a>
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
@@ -39,19 +45,19 @@
   <script>
     document.querySelectorAll('.clickable-card').forEach(card => {
       card.addEventListener('click', e => {
-        if(e.target.tagName==='BUTTON') return;
-        let inp = card.querySelector('.amount-input');
-        inp.value = +(inp.value||0) + 1;
+        if (e.target.tagName === 'BUTTON') return;
+        const inp = card.querySelector('.amount-input');
+        inp.value = +(inp.value || 0) + 1;
       });
       card.querySelector('.increment').onclick = e => {
         e.stopPropagation();
-        let inp = e.target.previousElementSibling;
-        inp.value = +(inp.value||0) + 1;
+        const inp = e.target.previousElementSibling;
+        inp.value = +(inp.value || 0) + 1;
       };
       card.querySelector('.decrement').onclick = e => {
         e.stopPropagation();
-        let inp = e.target.nextElementSibling;
-        inp.value = Math.max(0, +(inp.value||0) - 1);
+        const inp = e.target.nextElementSibling;
+        inp.value = Math.max(0, +(inp.value || 0) - 1);
       };
     });
   </script>
