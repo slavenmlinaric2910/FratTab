@@ -1,14 +1,10 @@
-// src/main/java/com/example/frattab/services/DrinkLogService.java
 package com.example.frattab.services;
 
-import java.util.List;
-
 import com.example.frattab.dto.DrinkLogDto;
-import com.example.frattab.dto.ResponseDto;
-import com.example.frattab.models.Drink;
+import com.example.frattab.dto.DrinkSelectionDto;
 
 public interface DrinkLogService {
-    ResponseDto logDrink(DrinkLogDto drinkLogDto);
+    void logDrinks(DrinkLogDto dto);
+      DrinkSelectionDto prepareSelection(Long memberId);
 
-    DrinkLogDto setDrinkLogDto(List<Drink> drinks, Long memberId);
 }

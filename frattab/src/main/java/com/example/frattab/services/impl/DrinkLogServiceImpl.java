@@ -1,63 +1,85 @@
-// src/main/java/com/example/frattab/services/impl/DrinkLogServiceImpl.java
 package com.example.frattab.services.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.frattab.dto.DrinkLogDto;
 import com.example.frattab.dto.DrinkQtyDto;
-import com.example.frattab.dto.ResponseDto;
-import com.example.frattab.models.Drink;
+import com.example.frattab.dto.DrinkSelectionDto;
 import com.example.frattab.models.DrinkLog;
 import com.example.frattab.models.DrinkQty;
-import com.example.frattab.models.Member;
 import com.example.frattab.repositories.DrinkLogRepository;
 import com.example.frattab.repositories.DrinkRepository;
 import com.example.frattab.repositories.MemberRepository;
 import com.example.frattab.services.DrinkLogService;
+import com.example.frattab.services.DrinksService;
+import com.example.frattab.services.MembersService;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class DrinkLogServiceImpl implements DrinkLogService {
+  private final MembersService membersService;
+  private final DrinksService drinksService;
+  private final DrinkLogRepository logRepo;
+  private final DrinkRepository     drinkRepo;
+  private final MemberRepository memberRepo;
 
-    @Autowired
-    private MemberRepository memberRepo;
-    @Autowired
-    private DrinkRepository drinkRepo;
-    @Autowired
-    private DrinkLogRepository logRepo;
+@Override
+  @Transactional
+  public void logDrinks(DrinkLogDto dto) {
+    var member = memberRepo.findById(dto.getMemberId())
+                  .orElseThrow(() -> new EntityNotFoundException("Member not found"));
 
-    @Override
-    public DrinkLogDto setDrinkLogDto(List<Drink> drinks, Long memberId) {
-        DrinkLogDto drinkLogDto = new DrinkLogDto();
-        List<DrinkQtyDto> drinkQtyList = drinks.stream().map(drink -> {
-            DrinkQtyDto dq = new DrinkQtyDto();
-            dq.setDrinkId(drink.getId());
-            dq.setQty(0);
-            return dq;
-        }).collect(Collectors.toList());
-        drinkLogDto.setDrinkQuantities(drinkQtyList);
-        drinkLogDto.setMemberId(memberId);
-        return drinkLogDto;
+    DrinkLog log = new DrinkLog();
+    log.setMemberId(member.getId());
+
+    double logTotal = 0;
+
+    for (DrinkQtyDto q : dto.getDrinkQuantities()) {
+      if (q.getQty() <= 0) continue;
+
+      var d = drinkRepo.findById(q.getDrinkId())
+                .orElseThrow(() -> new EntityNotFoundException("Drink not found"));
+
+      var dq = new DrinkQty();
+      dq.setDrink(d);
+      dq.setQty(q.getQty());
+
+      // ← SET the per-item total
+      double itemTotal = d.getPrice() * q.getQty();
+      dq.setTotal(itemTotal);
+
+      log.addDrinkQty(dq);
+
+      logTotal += itemTotal;
     }
 
-    @Override
-    public ResponseDto logDrink(DrinkLogDto drinkLogDto) {
-        ResponseDto response = new ResponseDto();
-        Member member = memberRepo.findById(drinkLogDto.getMemberId())
-                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+    // ← Set the overall log total
+    log.setTotal(logTotal);
 
-        List<DrinkQty> drinks = drinkLogDto.getDrinkQuantities().stream().map(drinkQtyDto -> {
-            DrinkQty drinkQty = new DrinkQty();
-            drinkQty.setDrink(drinkRepository.findById(drinkQtyDto.getDrinkId())
-                    .orElseThrow(() -> new EntityNotFoundException("Drink not found")).getPrice());
-        }).collect(Collectors.toList());
+    logRepo.save(log);
+  }
+  @Override
+  public DrinkSelectionDto prepareSelection(Long memberId) {
+    var member = membersService.getMemberById(memberId);
+    var drinks = drinksService.getAllDrinks();
 
-        return response;
-    }
+    var dto      = new DrinkLogDto();
+    dto.setMemberId(memberId);
+    drinks.forEach(d -> {
+      var q = new DrinkQtyDto();
+      q.setDrinkId(d.getId());
+      q.setQty(0);
+      dto.getDrinkQuantities().add(q);
+    });
+
+    var selection = new DrinkSelectionDto();
+    selection.setMember(member);
+    selection.setDrinks(drinks);
+    selection.setDrinkLogDto(dto);
+    return selection;
+  }
 }

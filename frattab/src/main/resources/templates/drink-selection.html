@@ -2,70 +2,58 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout/head :: head}"></head>
 <body>
-<header class="bg-dark text-white text-center py-4 mb-4 position-relative">
-    <button class="btn btn-outline-light position-absolute start-0 top-50 translate-middle-y ms-3"
-            onclick="history.back()">
-        ← Back
-    </button>
-    <h2 th:text="'Select Drinks for ' + ${member.firstName} + ' ' + ${member.lastName}">Drink Selection</h2>
-</header>
+    <header class="bg-dark text-white text-center py-4 mb-4 position-relative">
+        <button class="btn btn-outline-light position-absolute start-0 top-50 translate-middle-y ms-3"
+                onclick="history.back()">← Back</button>
+        <h2 th:text="'Select Drinks for ' + ${member.firstName} + ' ' + ${member.lastName}"></h2>
+    </header>
 
-<main class="container">
-    <form th:action="@{/members/{id}/log-drinks(id=${member.id})}" method="post" th:object="${drinkLogDto}">
-        <input type="hidden" th:field="*{memberId}" />
 
-        <div class="row g-3">
-            <div class="col-md-4" th:each="drink, iterStat : ${drinks}">
-                <div class="card text-center p-3 drink-card clickable-card" style="cursor: pointer;">
-                    <h5 class="card-title fw-bold" th:text="${drink.name}">Drink Name</h5>
-                    <p class="card-subtitle text-muted" th:text="${drink.price} + ' €'">Price</p>
-                    <div class="input-group justify-content-center mt-2">
-                        <button class="btn btn-outline-secondary decrement" type="button">-</button>
-                        <input type="text" class="form-control text-center amount-input"
-                            th:field="*{drinkQuantities[__${iterStat.index}__].qty}" value="0" readonly>
-                        <button class="btn btn-outline-secondary increment" type="button">+</button>
-                    </div>
-                    <input type="hidden" th:field="*{drinkQuantities[__${iterStat.index}__].drinkId}" />
-                </div>
+  <main class="container">
+    <form th:action="@{/members/{id}/log-drinks(id=${member.id})}"
+          th:object="${drinkLogDto}" method="post">
+      <div class="row g-3">
+        <div class="col-md-4" th:each="drink, stat : ${drinks}">
+          <div class="card clickable-card" style="…">
+            <h5 th:text="${drink.name}">Name</h5>
+            <p th:text="${drink.price} + ' €'">Price</p>
+
+            <div class="input-group">
+              <button class="decrement" type="button">-</button>
+              <input class="amount-input" readonly
+                     th:field="*{drinkQuantities[__${stat.index}__].qty}" />
+              <button class="increment" type="button">+</button>
             </div>
+            <input type="hidden" th:field="*{drinkQuantities[__${stat.index}__].drinkId}" />
+          </div>
         </div>
+      </div>
 
-        <div class="text-center mt-4">
-            <a href="/members" class="btn btn-secondary">Back</a>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
+      <div class="text-center mt-4">
+        <a href="/members" class="btn btn-secondary">Back</a>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
     </form>
-</main>
+  </main>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log('Drink selection page loaded');
-
-        document.querySelectorAll('.clickable-card').forEach(card => {
-            card.addEventListener('click', function (e) {
-                if (e.target.classList.contains('btn')) return;
-
-                const input = this.querySelector('.amount-input');
-                let value = parseInt(input.value) || 0;
-                input.value = value + 1;
-            });
-
-            card.querySelector('.increment').addEventListener('click', function (e) {
-                e.stopPropagation();
-                const input = this.parentElement.querySelector('.amount-input');
-                let value = parseInt(input.value) || 0;
-                input.value = value + 1;
-            });
-
-            card.querySelector('.decrement').addEventListener('click', function (e) {
-                e.stopPropagation();
-                const input = this.parentElement.querySelector('.amount-input');
-                let value = parseInt(input.value) || 0;
-                input.value = Math.max(0, value - 1);
-            });
-        });
+  <script>
+    document.querySelectorAll('.clickable-card').forEach(card => {
+      card.addEventListener('click', e => {
+        if(e.target.tagName==='BUTTON') return;
+        let inp = card.querySelector('.amount-input');
+        inp.value = +(inp.value||0) + 1;
+      });
+      card.querySelector('.increment').onclick = e => {
+        e.stopPropagation();
+        let inp = e.target.previousElementSibling;
+        inp.value = +(inp.value||0) + 1;
+      };
+      card.querySelector('.decrement').onclick = e => {
+        e.stopPropagation();
+        let inp = e.target.nextElementSibling;
+        inp.value = Math.max(0, +(inp.value||0) - 1);
+      };
     });
-</script>
-
+  </script>
 </body>
 </html>
