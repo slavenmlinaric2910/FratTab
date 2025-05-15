@@ -9,24 +9,29 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.example.frattab.models.Member;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.frattab.dto.MemberDto;
 import com.example.frattab.services.MembersService;
+import com.example.frattab.services.DrinksService;
 
 @Controller
 public class DashboardController {
     @Autowired
     private MembersService membersService;
+    @Autowired
+    private DrinksService drinksService;
 
     @GetMapping("/dashboard")
-    public String getDashboardPage() {
+    public String getDashboardPage(Model model) {
+        model.addAttribute("drinks", drinksService.getAllDrinks());
         return "./dashboard";
     }
 
     @GetMapping("/dashboard/members")
-    public String getMembersPage(Model model) {
-        model.addAttribute("members", membersService.getAllMembers(0));
+    public String getMembersPage(Model model, @RequestParam(defaultValue = "0") int page) {
+        model.addAttribute("members", membersService.getAllMembers(page));
         return "./members";
     }
 
