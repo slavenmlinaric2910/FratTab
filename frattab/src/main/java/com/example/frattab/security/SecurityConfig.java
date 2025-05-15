@@ -28,13 +28,15 @@ public class SecurityConfig {
                                                                 "/js/**",
                                                                 "/images/**",
                                                                 "/static/**",
+                                                                "/error",
                                                                 "/favicon.ico")
                                                 .permitAll()
-                                                .requestMatchers("/dashboard").hasRole("ADMIN")
-                                                .anyRequest().authenticated())
+                                                .requestMatchers("/dashboard",
+                                                                "/dashboard/*")
+                                                .authenticated())
                                 .formLogin(form -> form
                                                 .loginPage("/login")
-                                                .defaultSuccessUrl("/dashboard")
+                                                .defaultSuccessUrl("/dashboard", true)
                                                 .failureUrl("/login?error"))
                                 .logout(logout -> logout
                                                 .logoutSuccessUrl("/?logout"));

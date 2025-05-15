@@ -1,41 +1,30 @@
 <div th:fragment="addDeliveryModal" class="modal fade" id="delivery" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Record Delivery</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label">Select Drink</label>
-                    <select class="form-select">
-                        <option>IPA</option>
-                        <option>Lager</option>
-                        <option>Stout</option>
-                        <option>Pilsner</option>
-                        <option>Ale</option>
-                    </select>
+            <form th:action="@{/dashboard/delivery}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Record Delivery</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Quantity Delivered</label>
-                    <input type="number" class="form-control" placeholder="24">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Supplier</label>
-                    <input type="text" class="form-control" placeholder="Beer Co.">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Cost</label>
-                    <div class="input-group">
-                        <span class="input-group-text">$</span>
-                        <input type="number" class="form-control" placeholder="45.00">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="drinkType" class="form-label">Select Drink</label>
+                        <select class="form-select" id="drinkType" name="drinkType" required>
+                            <option value="">-- Select Drink --</option>
+                            <option th:each="drink : ${drinks}" th:text="${drink.name}" th:value="${drink.id}" value="IPA">IPA</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity Delivered</label>
+                        <input type="number" class="form-control" id="quantity" name="qty" placeholder="0" min="1"
+                            required>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Record Delivery</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Record Delivery</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

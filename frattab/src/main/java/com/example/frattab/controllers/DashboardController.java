@@ -5,16 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
-import com.example.frattab.models.Member;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.frattab.dto.DeliveryDto;
+import com.example.frattab.dto.DrinkDto;
 import com.example.frattab.dto.MemberDto;
 import com.example.frattab.services.MembersService;
 import com.example.frattab.services.DrinksService;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class DashboardController {
@@ -39,6 +39,19 @@ public class DashboardController {
     public String addNewMember(@ModelAttribute MemberDto memberDto, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("response", membersService.createNewMember(memberDto));
         return "redirect:/dashboard/members";
+    }
+
+    @PostMapping("/dashboard/drink")
+    public String addNewDrink(@ModelAttribute DrinkDto drinkDto, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("response", drinksService.addNewDrink(drinkDto));
+        return "redirect:/dashboard";
+    }
+
+    @PostMapping("/dashboard/delivery")
+    public String addDeliveredDrinks(@ModelAttribute DeliveryDto deliveryDto, RedirectAttributes redirectAttributes) {
+        // TODO: process POST request
+
+        return "redirect:/dashboard";
     }
 
 }

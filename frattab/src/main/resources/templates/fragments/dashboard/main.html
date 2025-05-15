@@ -112,41 +112,22 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <h6 class="d-flex justify-content-between">
-                            <span>IPA</span>
-                            <span>12/24</span>
+                            <span>Drink</span>
+                            <span>Qty.</span>
                         </h6>
-                        <div class="progress" style="height: 5px;">
-                            <div class="progress-bar bg-dark" role="progressbar" style="width: 50%;"></div>
-                        </div>
                     </div>
-                    <div class="mb-3">
+                    <th:block th:if="${!drinks.isEmpty()}">
+                    <div class="mb-3" th:each="drink : ${drinks}">
                         <h6 class="d-flex justify-content-between">
-                            <span>Lager</span>
-                            <span>18/36</span>
+                            <span th:text="${drink.name}">IPA</span>
+                            <span th:text="${drink.qty}">12/24</span>
                         </h6>
-                        <div class="progress" style="height: 5px;">
+                        <!-- <div class="progress" style="height: 5px;">
                             <div class="progress-bar bg-dark" role="progressbar" style="width: 50%;"></div>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="mb-3">
-                        <h6 class="d-flex justify-content-between">
-                            <span>Stout</span>
-                            <span>6/12</span>
-                        </h6>
-                        <div class="progress" style="height: 5px;">
-                            <div class="progress-bar bg-dark" role="progressbar" style="width: 50%;"></div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <h6 class="d-flex justify-content-between">
-                            <span>Pilsner</span>
-                            <span>3/24</span>
-                        </h6>
-                        <div class="progress" style="height: 5px;">
-                            <div class="progress-bar bg-dark" role="progressbar" style="width: 12.5%;">
-                            </div>
-                        </div>
-                    </div>
+                </th:block>
+                <div class="mb-3" th:if="${drinks.isEmpty()}">No Drinks</div>
                     <button class="btn btn-primary w-100 mt-2">Order More</button>
                 </div>
             </div>
