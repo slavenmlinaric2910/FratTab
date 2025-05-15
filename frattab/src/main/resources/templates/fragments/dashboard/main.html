@@ -16,7 +16,6 @@
             </div>
         </div>
     </div>
-
     <!-- Stats Cards -->
     <div class="row">
         <div class="col-md-3">
@@ -39,7 +38,6 @@
             </div>
         </div>
     </div>
-
     <!-- Recent Activity -->
     <div class="row mt-4">
         <div class="col-md-8">
@@ -54,41 +52,24 @@
                                 <tr>
                                     <th>Member</th>
                                     <th>Drink</th>
-                                    <th>Time</th>
                                     <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>John D.</td>
-                                    <td>IPA</td>
-                                    <td>10 min ago</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>Mike S.</td>
-                                    <td>Lager</td>
-                                    <td>25 min ago</td>
-                                    <td>2</td>
-                                </tr>
-                                <tr>
-                                    <td>Alex B.</td>
-                                    <td>Stout</td>
-                                    <td>42 min ago</td>
-                                    <td>1</td>
-                                </tr>
-                                <tr>
-                                    <td>Chris T.</td>
-                                    <td>Pilsner</td>
-                                    <td>1 hour ago</td>
-                                    <td>3</td>
-                                </tr>
-                                <tr>
-                                    <td>Steve R.</td>
-                                    <td>Ale</td>
-                                    <td>2 hours ago</td>
-                                    <td>2</td>
-                                </tr>
+                                <th:block th:each="log : ${recentLogs}">
+                                    
+                                    <tr th:each="drinkQty : ${log.drinkQuantities}">
+                                        <td th:text="${log.member.firstName + ' ' + log.member.lastName + ' | ' + log.member.nickName}"></td>
+                                        <td th:text="${drinkQty.drink.name}">IPA</td>
+                                        <td th:text="${drinkQty.qty}">1</td>
+                                        <td th:text="${drinkQty.drink.price}"></td>
+                                        <td th:text="${drinkQty.total}"></td>
+                                            
+                                    </tr>
+                                </th:block>
                             </tbody>
                         </table>
                     </div>

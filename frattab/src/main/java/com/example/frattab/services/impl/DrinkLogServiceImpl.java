@@ -1,5 +1,9 @@
 package com.example.frattab.services.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +15,6 @@ import com.example.frattab.dto.ResponseDto;
 import com.example.frattab.models.Drink;
 import com.example.frattab.models.DrinkLog;
 import com.example.frattab.models.DrinkQty;
-import com.example.frattab.models.Member;
 import com.example.frattab.repositories.DrinkLogRepository;
 import com.example.frattab.repositories.DrinkRepository;
 import com.example.frattab.repositories.MemberRepository;
@@ -53,7 +56,8 @@ public class DrinkLogServiceImpl implements DrinkLogService {
 
         // Create a new DrinkLog entity and associate with the member
         DrinkLog drinkLog = new DrinkLog();
-        drinkLog.setMemberId(member.getId());
+        drinkLog.setMember(memberRepository.findById(member.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Member not found")));
 
         double totalLogAmount = 0.0;
 
@@ -136,7 +140,8 @@ public class DrinkLogServiceImpl implements DrinkLogService {
         ResponseDto response = new ResponseDto();
 
         DrinkLog drinkLog = new DrinkLog();
-        drinkLog.setMemberId(dto.getMemberId());
+        drinkLog.setMember(memberRepository.findById(dto.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException("Member not found")));
         Drink drink = drinkRepository.findById(dto.getDrinkId())
                 .orElseThrow(() -> new EntityNotFoundException("Drink not found"));
         DrinkQty drinkQty = new DrinkQty();
@@ -147,6 +152,16 @@ public class DrinkLogServiceImpl implements DrinkLogService {
         drinkLog.addDrinkQty(drinkQty);
         drinkLog.setTotal(drinkQty.getTotal());
 
+        drinkLogRepository.save(drinkLog);
+
         return response;
+    }
+
+    @Override
+    public Page<DrinkLog> getRecentDrinkLogs(int page) {
+        int size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+        System.out.println("Pageable: " + drinkLogRepository.findAll(pageable));
+        return drinkLogRepository.findAll(pageable);
     }
 }

@@ -27,11 +27,12 @@ public class DashboardController {
     private DrinkLogService drinkLogService;
 
     @GetMapping("/dashboard")
-    public String getDashboardPage(Model model) {
+    public String getDashboardPage(Model model, @RequestParam(defaultValue = "0") int logsPage) {
         model.addAttribute("drinks", drinksService.getAllDrinks());
         model.addAttribute("members", membersService.getAllMembers());
         model.addAttribute("membersCount", membersService.getMembersCount());
         model.addAttribute("monthlySpending", drinksService.getMonthlyDrinkSpending());
+        model.addAttribute("recentLogs", drinkLogService.getRecentDrinkLogs(logsPage));
         return "./dashboard";
     }
 
