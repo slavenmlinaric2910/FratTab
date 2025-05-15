@@ -1,5 +1,8 @@
 package com.example.frattab.services.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -123,6 +126,7 @@ public class DrinkLogServiceImpl implements DrinkLogService {
             DrinkQtyDto drinkQtyDto = new DrinkQtyDto();
             drinkQtyDto.setDrinkId(drink.getId());
             drinkQtyDto.setQty(0);
+
             drinkLogDto.getDrinkQuantities().add(drinkQtyDto);
         }
 
@@ -147,12 +151,13 @@ public class DrinkLogServiceImpl implements DrinkLogService {
         DrinkQty drinkQty = new DrinkQty();
         drinkQty.setDrink(drink);
         drinkQty.setQty(dto.getQuantity());
-        drinkQty.setTotal(drink.getPrice() * dto.getQuantity());
-
+        drinkQty.setTotal(BigDecimal.valueOf(drink.getPrice() * dto.getQuantity())
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue());
         drinkLog.addDrinkQty(drinkQty);
         drinkLog.setTotal(drinkQty.getTotal());
-
         drinkLogRepository.save(drinkLog);
+        drinksService.updateDrinkQty(dto.getDrinkId(), dto.getQuantity());
 
         return response;
     }
