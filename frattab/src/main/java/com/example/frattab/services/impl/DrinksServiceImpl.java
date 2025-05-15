@@ -56,4 +56,10 @@ public class DrinksServiceImpl implements DrinksService {
         return responseDto;
     }
 
+    @Override
+    public Double getMonthlyDrinkSpending() {
+        System.out.println("sum" + deliveryRepository.sumTotalForCurrentMonth());
+        return deliveryRepository.sumTotalForCurrentMonth();
+    }
+
 }

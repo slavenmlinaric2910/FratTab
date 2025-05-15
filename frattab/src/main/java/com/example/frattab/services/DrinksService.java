@@ -13,4 +13,6 @@ public interface DrinksService {
     ResponseDto addNewDrink(DrinkDto drinkDto);
 
     ResponseDto addDrinkDelivery(DeliveryRequestDto deliveryDto);
+
+    Double getMonthlyDrinkSpending();
 }

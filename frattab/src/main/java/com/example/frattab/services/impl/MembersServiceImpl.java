@@ -1,4 +1,5 @@
 package com.example.frattab.services.impl;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,11 @@ public class MembersServiceImpl implements MembersService {
     public List<MemberDto> getAllMembers() {
         return memberRepository.findAll().stream()
                 .map(member -> mappers.memberToMemberDto(member)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Long getMembersCount() {
+        return memberRepository.count();
     }
 
 }

@@ -1,5 +1,7 @@
 package com.example.frattab.models;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -24,4 +26,5 @@ public class Delivery {
     private Drink drink;
     private int qty;
     private double total;
+    private LocalDate date = LocalDate.now();
 }

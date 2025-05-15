@@ -15,7 +15,6 @@ import com.example.frattab.dto.MemberDto;
 import com.example.frattab.dto.QuickConsumptionDto;
 import com.example.frattab.services.MembersService;
 import com.example.frattab.services.DrinksService;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class DashboardController {
@@ -28,6 +27,8 @@ public class DashboardController {
     public String getDashboardPage(Model model) {
         model.addAttribute("drinks", drinksService.getAllDrinks());
         model.addAttribute("members", membersService.getAllMembers());
+        model.addAttribute("membersCount", membersService.getMembersCount());
+        model.addAttribute("monthlySpending", drinksService.getMonthlyDrinkSpending());
         return "./dashboard";
     }
 
