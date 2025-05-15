@@ -15,4 +15,6 @@ public interface DrinksService {
     ResponseDto addDrinkDelivery(DeliveryRequestDto deliveryDto);
 
     Double getMonthlyDrinkSpending();
+
+    void updateDrinkQty(Long drinkId, int qty);
 }

@@ -64,4 +64,13 @@ public class DrinksServiceImpl implements DrinksService {
         return deliveryRepository.sumTotalForCurrentMonth();
     }
 
+    @Override
+    public void updateDrinkQty(Long drinkId, int qty) {
+        Drink drink = drinkRepository.findById(drinkId)
+                .orElseThrow(() -> new RuntimeException("Drink not found"));
+        int newQty = drink.getQty() - qty;
+        drink.setQty(newQty);
+        drinkRepository.save(drink);
+    }
+
 }
