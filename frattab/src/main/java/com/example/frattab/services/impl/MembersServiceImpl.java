@@ -1,6 +1,7 @@
 package com.example.frattab.services.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,12 @@ public class MembersServiceImpl implements MembersService {
         int size = 20;
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
         return memberRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<MemberDto> getAllMembers() {
+        return memberRepository.findAll().stream()
+                .map(member -> mappers.memberToMemberDto(member)).collect(Collectors.toList());
     }
 
 }

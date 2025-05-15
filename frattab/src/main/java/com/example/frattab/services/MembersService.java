@@ -12,4 +12,6 @@ public interface MembersService {
     ResponseDto createNewMember(MemberDto member);
 
     Page<Member> getAllMembers(int page);
+
+    List<MemberDto> getAllMembers();
 }

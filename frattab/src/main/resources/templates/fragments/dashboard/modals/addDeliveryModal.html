@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="drinkType" class="form-label">Select Drink</label>
-                        <select class="form-select" id="drinkType" name="drinkType" required>
+                        <select class="form-select" id="drinkType" name="drinkId" required>
                             <option value="">-- Select Drink --</option>
                             <option th:each="drink : ${drinks}" th:text="${drink.name}" th:value="${drink.id}" value="IPA">IPA</option>
                         </select>
