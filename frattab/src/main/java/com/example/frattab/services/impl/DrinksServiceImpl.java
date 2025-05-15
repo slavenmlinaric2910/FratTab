@@ -1,5 +1,7 @@
 package com.example.frattab.services.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +53,10 @@ public class DrinksServiceImpl implements DrinksService {
         delivery.setQty(deliveryDto.getQty());
         delivery.setTotal(deliveryDto.getPrice() * deliveryDto.getQty());
         deliveryRepository.save(delivery);
-        drink.setPrice(deliveryDto.getPrice() * 0.2 + deliveryDto.getPrice());
+        drink.setPrice(BigDecimal.valueOf(deliveryDto.getPrice() * 0.2 + deliveryDto
+                .getPrice())
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue());
         drinkRepository.save(drink);
         responseDto.setStatus("success");
         responseDto.setMessage("Delivery of " + deliveryDto.getQty() + " " + drink.getName() + "(s) has been added");
