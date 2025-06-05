@@ -28,6 +28,7 @@ public class SecurityConfig {
                                                                 "/members/**",
                                                                 "/css/**",
                                                                 "/js/**",
+                                                                "/admin/run-billing",
                                                                 "/images/**",
                                                                 "/static/**",
                                                                 "/error",
