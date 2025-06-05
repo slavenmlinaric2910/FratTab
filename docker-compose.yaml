@@ -1,45 +1,51 @@
 version: "3.8"
 services:
-    postgres:
-        image: postgres:13-alpine
-        environment:
-            POSTGRES_PASSWORD: postgres
-            POSTGRES_USER: postgres
-            POSTGRES_DB: frattabdb
-        ports:
-            - "5432:5432" # Exposed for external tools
-        volumes:
-            - frattabdb-data:/var/lib/postgresql/data
-        healthcheck:
-            test: ["CMD-SHELL", "pg_isready -U postgres"]
-            interval: 5s
-            timeout: 5s
-            retries: 10
-        networks:
-            - app-network
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: frattabdb
+    ports:
+      - "5432:5432" # Exposed for external tools
+    volumes:
+      - frattabdb-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - app-network
 
-    pgadmin:
-        image: dpage/pgadmin4:8.12
-        environment:
-            PGADMIN_DEFAULT_EMAIL: admin@admin.com
-            PGADMIN_DEFAULT_PASSWORD: admin
-            PGADMIN_CONFIG_SERVER_MODE: "False"
-            PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
-        ports:
-            - "5050:80" # Expose pgAdmin on port 8080
-        volumes:
-            - pgadmin-data:/var/lib/pgadmin
-        depends_on:
-            - postgres
-        networks:
-            - app-network
+  pgadmin:
+    image: dpage/pgadmin4:8.12
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    ports:
+      - "5050:80" # Expose pgAdmin on port 8080
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - app-network
 
+  frattab:
+    build: ./frattab
+    ports:
+      - "80:12000"
+    networks:
+      - app-network
 volumes:
-    frattabdb-data:
-        name: frattabdb-data
-    pgadmin-data:
-        name: pgadmin-data
+  frattabdb-data:
+    name: frattabdb-data
+  pgadmin-data:
+    name: pgadmin-data
 
 networks:
-    app-network:
-        driver: bridge
+  app-network:
+    driver: bridge
