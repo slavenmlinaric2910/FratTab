@@ -24,7 +24,8 @@ public class SchedulerConfig {
      * Cron breakdown: "0 * * * * *" means "at second = 0, every minute, every hour, every day..."
      * Once verified, restore it to "0 0 0 1 1/3 *" for quarterly runs on the 1st of Jan/Apr/Jul/Oct.
      */
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "0 0 0 1 1/3 *")
+    //@Scheduled(cron = "0 * * * * *")
     public void runQuarterlyBillingJob() {
         List<MemberBillDto> bills = billingService.runQuarterlyBilling();
         System.out.println(">>> [Scheduled] Billing run at " + java.time.LocalDateTime.now());

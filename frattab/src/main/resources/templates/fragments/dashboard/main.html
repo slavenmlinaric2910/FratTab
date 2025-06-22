@@ -13,9 +13,27 @@
                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#delivery">
                     <i class="fas fa-truck"></i> Delivery
                 </button>
+                <!-- POST form wrapper around Send Billing -->
+                <form id="sendBillingForm"
+                    th:action="@{/dashboard/send-billing}"
+                    method="post"
+                    style="display:inline">
+                <!-- Thymeleaf + Spring Security auto-adds:
+                    <input type="hidden" name="_csrf" value="…"/> -->
+                <button
+                    type="button"
+                    class="btn btn-sm btn-warning"
+                    onclick="confirmAndSubmit()">
+                    <i class="fas fa-envelope"></i> Send Billing
+                </button>
+                </form>
             </div>
         </div>
     </div>
+<!-- Flash message -->
+  <div th:if="${billingMessage}" class="alert alert-success">
+    <span th:text="${billingMessage}"></span>
+  </div>
     <!-- Stats Cards -->
     <div class="row">
         <div class="col-md-3">
@@ -100,4 +118,14 @@
             </div>
         </div>
     </div>
+    <script th:inline="javascript">
+  /*<![CDATA[*/
+    function confirmAndSubmit() {
+      if (confirm('Are you sure you want to send billing emails now?')) {
+        document.getElementById('sendBillingForm').submit();
+      }
+    }
+  /*]]>*/
+  </script>
+
 </div>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ihre Quartalsrechnung</title>
+  </head>
+  <body>
+    <h2>Hallo [[${memberName}]],</h2>
+    <p>
+      Anbei erhalten Sie Ihre Frattab-Rechnung für den Zeitraum
+      <strong>[[${periodStart}]] bis [[${periodEnd}]]</strong>.
+    </p>
+    <p>
+      <strong>Gesamtbetrag:</strong>
+      <span style="font-weight: bold;">€ [[${totalDue}]]</span>
+    </p>
+    <br />
+    <p>
+      Vielen Dank für Ihre pünktliche Begleichung.
+      <br />
+      Mit freundlichen Grüßen,
+      <br />
+      Ihr Frattab-Team
+    </p>
+  </body>
+</html>
