@@ -12,6 +12,8 @@ public interface MembersService {
 
     ResponseDto createNewMember(MemberDto member);
 
+    ResponseDto updateMember(MemberDto memberUpdate);
+
     Page<Member> getAllMembers(int page);
 
     Member getMemberById(Long id);

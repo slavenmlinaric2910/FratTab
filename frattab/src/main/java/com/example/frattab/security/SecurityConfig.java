@@ -35,7 +35,8 @@ public class SecurityConfig {
                                                                 "/favicon.ico")
                                                 .permitAll()
                                                 .requestMatchers("/dashboard",
-                                                                "/dashboard/*")
+                                                                "/dashboard/**",
+                                                                "/api/**")
                                                 .authenticated())
                                 .formLogin(form -> form
                                                 .loginPage("/login")

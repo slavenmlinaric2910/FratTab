@@ -48,6 +48,12 @@ public class DashboardController {
         return "redirect:/dashboard/members";
     }
 
+    @PostMapping("/dashboard/members/update")
+    public String updateMember(@ModelAttribute MemberDto memberDto, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("response", membersService.updateMember(memberDto));
+        return "redirect:/dashboard/members";
+    }
+
     @PostMapping("/dashboard/drink")
     public String addNewDrink(@ModelAttribute DrinkDto drinkDto, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("response", drinksService.addNewDrink(drinkDto));

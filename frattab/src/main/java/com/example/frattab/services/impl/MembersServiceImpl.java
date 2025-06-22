@@ -58,4 +58,24 @@ public class MembersServiceImpl implements MembersService {
         return memberRepository.count();
     }
 
+    @Override
+    public ResponseDto updateMember(MemberDto memberUpdate) {
+
+        Member member = memberRepository.findById(memberUpdate.getId()).orElseThrow(() -> new IllegalArgumentException(
+                "Member not found with id: " + memberUpdate.getId()));
+
+        member.setFirstName(memberUpdate.getFirstName());
+        member.setLastName(memberUpdate.getLastName());
+        member.setNickName(memberUpdate.getNickName());
+        member.setEmail(memberUpdate.getEmail());
+
+        Member updatedMember = memberRepository.saveAndFlush(member);
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setStatus("success");
+        responseDto.setMessage("User " + updatedMember.getFirstName() + " " + updatedMember.getLastName() + " with ID:"
+                + updatedMember.getId() + " has been successfully updated");
+        return responseDto;
+
+    }
+
 }
