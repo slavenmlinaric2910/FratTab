@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,11 +22,13 @@ import com.example.frattab.models.DrinkLog;
 import com.example.frattab.models.DrinkQty;
 import com.example.frattab.models.Member;
 import com.example.frattab.repositories.DrinkLogRepository;
+import com.example.frattab.repositories.DrinkQtyRepository;
 import com.example.frattab.repositories.DrinkRepository;
 import com.example.frattab.repositories.MemberRepository;
 import com.example.frattab.services.DrinkLogService;
 import com.example.frattab.services.DrinksService;
 import com.example.frattab.services.MembersService;
+import com.example.frattab.util.Mappers;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +48,11 @@ public class DrinkLogServiceImpl implements DrinkLogService {
     private final DrinkLogRepository drinkLogRepository;
     private final DrinkRepository drinkRepository;
     private final MemberRepository memberRepository;
+    @Autowired
+    private final Mappers mapper;
+
+    @Autowired
+    private final DrinkQtyRepository drinkQtyRepository;
 
     /**
      * Persists a new DrinkLog and its associated DrinkQty line-items.
@@ -176,5 +184,28 @@ public class DrinkLogServiceImpl implements DrinkLogService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         System.out.println("Pageable: " + drinkLogRepository.findAll(pageable));
         return drinkLogRepository.findAll(pageable);
+    }
+
+    @Override
+    public ResponseDto updateDrinkLog(DrinkQtyDto drinkQtyDto) {
+        DrinkQty drinkQty = drinkQtyRepository.findById(drinkQtyDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("DrinkQty with ID:" + drinkQtyDto.getId() + " not found!"));
+        int diffQty =  drinkQtyDto.getQty() - drinkQty.getQty();
+        drinkQty.setQty(drinkQtyDto.getQty());
+        drinkQtyRepository.save(drinkQty);
+        drinksService.updateDrinkQty(drinkQty.getDrink().getId(), diffQty);
+
+        ResponseDto response = new ResponseDto();
+        response.setMessage("Drink log updated successfully");
+        response.setStatus("success");
+        return response;
+    }
+    @Transactional
+    @Override
+    public DrinkQtyDto getDrinkLogById(long drinkQtyId) {
+        DrinkQty drinkQty = drinkQtyRepository.findById(drinkQtyId)
+                .orElseThrow(() -> new EntityNotFoundException("DrinkQty with ID:" + drinkQtyId + " not found!"));
+        DrinkQtyDto drinkQtyDto = mapper.drinkQtyToDrinkQtyDto(drinkQty);
+        return drinkQtyDto;
     }
 }

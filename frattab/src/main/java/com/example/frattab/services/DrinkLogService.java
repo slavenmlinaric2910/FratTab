@@ -3,6 +3,7 @@ package com.example.frattab.services;
 import org.springframework.data.domain.Page;
 
 import com.example.frattab.dto.DrinkLogDto;
+import com.example.frattab.dto.DrinkQtyDto;
 import com.example.frattab.dto.DrinkSelectionDto;
 import com.example.frattab.dto.QuickConsumptionDto;
 import com.example.frattab.dto.ResponseDto;
@@ -16,5 +17,9 @@ public interface DrinkLogService {
     DrinkSelectionDto prepareSelection(Long memberId);
 
     Page<DrinkLog> getRecentDrinkLogs(int page);
+
+    ResponseDto updateDrinkLog(DrinkQtyDto drinkQtyDto);
+
+    DrinkQtyDto getDrinkLogById(long drinkQtyId);
 
 }

@@ -1,0 +1,40 @@
+<div th:fragment="updateDrinkLog" class="modal fade" id="updateDrinkLog" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" th:action="@{/dashboard/drinklog/update}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Drink Log</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3" id="memberSelectionDiv">
+                        <!-- <label for="memberSelect" class="form-label">Member</label>
+                        <select class="form-select" id="memberSelect" name="memberId" required>
+                            <option value="">Select a member</option>
+                            <option th:each="member : ${members}" th:text="${member.firstName + ' ' + member.lastName + 
+                                             (member.nickName != null ? ' (' + member.nickName + ')' : ' (no nickname)')}" th:value="${member.id}">
+                                John Doe
+                            </option>
+                        </select> -->
+                    </div>
+                    <div class="mb-3" id="drinkSelectionDiv">
+                        <!-- <label for="drinkSelect" class="form-label">Drink</label>
+                        <select class="form-select" id="drinkSelect" name="drinkId" required>
+                            <option value="">Select a drink</option>
+                            <option th:each="drink : ${drinks}" th:text="${drink.name}"  th:value="${drink.id}">IPA</option>
+                        </select> -->
+                    </div>
+                    <div class="mb-3" id="quantityInputDiv">
+                        <!-- <label for="quantityInput" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantityInput" name="quantity" value="1" min="1"
+                            required> -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update Drink Log</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

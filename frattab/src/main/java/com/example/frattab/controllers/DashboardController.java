@@ -11,11 +11,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.frattab.dto.DeliveryRequestDto;
 import com.example.frattab.dto.DrinkDto;
+import com.example.frattab.dto.DrinkLogDto;
+import com.example.frattab.dto.DrinkQtyDto;
 import com.example.frattab.dto.MemberDto;
 import com.example.frattab.dto.QuickConsumptionDto;
 import com.example.frattab.services.DrinkLogService;
 import com.example.frattab.services.DrinksService;
 import com.example.frattab.services.MembersService;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class DashboardController {
@@ -36,11 +40,20 @@ public class DashboardController {
         return "./dashboard";
     }
 
+
     @GetMapping("/dashboard/members")
     public String getMembersPage(Model model, @RequestParam(defaultValue = "0") int page) {
         model.addAttribute("members", membersService.getAllMembers(page));
         return "./members";
     }
+
+    @PostMapping("/dashboard/drinklog/update")
+    public String updateDrinkLog(@ModelAttribute DrinkQtyDto drinkQtyDto, RedirectAttributes redirectAttributes) {
+        //TODO: process POST request
+        redirectAttributes.addFlashAttribute("response", drinkLogService.updateDrinkLog(drinkQtyDto));
+        return "redirect:/dashboard";
+    }
+    
 
     @PostMapping("/dashboard/members")
     public String addNewMember(@ModelAttribute MemberDto memberDto, RedirectAttributes redirectAttributes) {
