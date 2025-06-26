@@ -45,8 +45,16 @@ public class DrinkLog {
     @OneToMany(mappedBy = "drinkLog", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DrinkQty> drinkQuantities = new ArrayList<>();
 
+    private boolean isBilled = false;
+    private boolean isPaid = false;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true) // optional=true allows null
+    @JoinColumn(name = "billing_run_id", nullable = true) // DB column allows NULL
+    private BillingRun billingRun;
+
     public void addDrinkQty(DrinkQty dq) {
         dq.setDrinkLog(this);
         drinkQuantities.add(dq);
     }
+
 }

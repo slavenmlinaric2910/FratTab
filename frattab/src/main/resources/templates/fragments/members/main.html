@@ -33,6 +33,9 @@
                                 th:attr="data-member-id=${member.id}" onclick="fetchMemberById(event)">
                                 <i class="bi bi-pencil"></i>
                             </button>
+                            <a th:href="@{/dashboard/member/{memberId}/billing(memberId=${member.id})}" class="btn btn-sm btn-outline-dark">
+                                <i class="bi bi-eye"></i>
+                            </a>
                         </td>
                     </tr>
                 </tbody>
