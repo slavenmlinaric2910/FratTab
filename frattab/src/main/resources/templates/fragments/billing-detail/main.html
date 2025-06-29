@@ -1,0 +1,156 @@
+<div th:fragment="billing-detail" class="container billing-container mt-4">
+
+    <!-- User Information Section -->
+    <div class="user-info-card card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="d-flex ">
+                        <h2 class="card-title mb-1" th:text="${member.firstName} + ' ' + ${member.lastName}"></h2>
+                        <h2> <small class="text-muted" th:text="' (' + ${member.nickName} + ')'"></small></h2>
+                    </div>
+                    <p class="text-muted mb-0" th:text="${member.email}">michael.johnson@example.com</p>
+                </div>
+                <!-- <div
+                    class="user-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
+                    MJ
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Vertical Stepper -->
+    <div class="stepper-wrapper">
+        <!-- Current Billing Period -->
+        <div class="stepper-item active">
+            <div class="stepper-counter">1</div>
+            <div class="stepper-label">Current Period</div>
+            <div class="stepper-content card shadow-sm">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0" th:if="${billings != null and !billings.isEmpty()}">
+                        <!-- Show the second date first if it exists -->
+                        <span th:if="${billings.size() > 1}"
+                            th:text="${#temporals.format(billings[1].periodEnd, 'MMMM d, yyyy')}"></span>
+                        <!-- Otherwise show first date minus 3 months first -->
+                        <span th:unless="${billings.size() > 1}"
+                            th:text="${#temporals.format(billings[0].periodEnd.minusMonths(3), 'MMMM d, yyyy')}"></span>
+                        <span> - </span>
+                        <!-- Always show the first date second -->
+                        <span th:text="${#temporals.format(billings[0].periodEnd, 'MMMM d, yyyy')}"></span>
+                    </h4>
+                    <p class="text-muted mb-0">Current billing cycle (not yet invoiced)</p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Drink</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <th:block th:each="billing : ${billings}"> -->
+                                    <th:block th:each="drinkLog : ${billings.[0].drinkLogs}">
+                                        <tr th:each="drinkQty : ${drinkLog.drinkQuantities}">
+                                            <td th:text="${#temporals.format(drinkLog.createdAt, 'MMMM d, yyyy')}">Mar 28, 2024</td>
+                                            <td th:text="${drinkQty.drink.name}">Espresso</td>
+                                            <td th:text="${drinkQty.qty}">Regular</td>
+                                            <td th:text="${drinkQty.drink.price}">$3.50</td>
+                                            <td th:text="${drinkQty.drink.price * drinkQty.qty}"></td>
+                                        </tr>
+                                    </th:block>
+                                        
+
+                                <!-- </th:block> -->
+  
+                            </tbody>
+                            <tfoot>
+                                <tr class="table-active">
+                                    <td colspan="4" class="text-end"><strong>Current Total:</strong></td>
+                                    <td><strong th:text="${billings.[0].total}">$12.50</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Previous Billing Periods -->
+        <div class="stepper-item" th:if="${billings != null and !billings.isEmpty() and billings.size() > 1}">
+            <th:block th:each="billing, iterStat : ${billings}" th:if="${iterStat.index > 0}">            
+            <div class="stepper-counter" style="color: #111116;" th:text="${iterStat.index + 1}">2</div>
+            <div class="stepper-label">Previous Period</div>
+            <div class="stepper-content card shadow-sm">
+                <div class="card-header bg-white">
+<h4 class="mb-0" th:each="billing, iterStat : ${billings}">
+    <!-- First date (periodEnd of next billing) -->
+    <span th:with="
+        nextBilling=${iterStat.index + 1 < billings.size() ? billings[iterStat.index + 1].periodEnd : 
+                        billing.periodEnd.minusMonths(3)},
+        currentEnd=${billing.periodEnd}
+    ">
+        <!-- Format dates nicely -->
+        <span th:text="${#temporals.format(nextBilling, 'MMMM d, yyyy')}">October 15, 2023</span>
+        - 
+        <span th:text="${#temporals.format(currentEnd, 'MMMM d, yyyy')}">January 14, 2024</span>
+    </span>
+</h4>
+                    <p class="text-muted mb-0">Invoice #INV-2023-004 (Paid on Jan 15, 2024)</p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Drink</th>
+                                    <th>Size</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Jan 10, 2024</td>
+                                    <td>Latte</td>
+                                    <td>Large</td>
+                                    <td>$5.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Dec 28, 2023</td>
+                                    <td>Americano</td>
+                                    <td>Regular</td>
+                                    <td>$3.25</td>
+                                </tr>
+                                <tr>
+                                    <td>Dec 15, 2023</td>
+                                    <td>Mocha</td>
+                                    <td>Medium</td>
+                                    <td>$4.50</td>
+                                </tr>
+                                <tr>
+                                    <td>Nov 30, 2023</td>
+                                    <td>Espresso</td>
+                                    <td>Regular</td>
+                                    <td>$3.50</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="table-active">
+                                    <td colspan="3" class="text-end"><strong>Period Total:</strong></td>
+                                    <td><strong>$16.25</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+        </div>
+
+    </div>
+</div>

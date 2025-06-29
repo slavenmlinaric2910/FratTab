@@ -32,4 +32,8 @@ public interface DrinkLogRepository extends JpaRepository<DrinkLog, Long> {
             @Param("end") LocalDateTime end);
 
     List<DrinkLog> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
+
+    List<DrinkLog> findAllByMemberId(Long memberId);
+
+    List<DrinkLog> findAllByMemberIdAndBillingRunId(Long memberId, Long billingRunId);
 }

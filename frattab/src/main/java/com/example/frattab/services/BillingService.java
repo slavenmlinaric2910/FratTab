@@ -3,7 +3,9 @@ package com.example.frattab.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.data.domain.Page;
 
+import com.example.frattab.dto.BillingRunDetailDto;
 import com.example.frattab.dto.MemberBillDto;
 import com.example.frattab.models.DrinkLog;
 
@@ -19,4 +21,6 @@ public interface BillingService {
     List<MemberBillDto> runQuarterlyBilling();
 
     List<DrinkLog> getDrinkLogsBetween(LocalDateTime startDate, LocalDateTime endDate);
+
+    List<BillingRunDetailDto> getBillingRunsForMember(Long memberId, int page);
 }

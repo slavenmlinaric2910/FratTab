@@ -16,6 +16,7 @@ import com.example.frattab.dto.DrinkDto;
 import com.example.frattab.dto.DrinkQtyDto;
 import com.example.frattab.dto.MemberDto;
 import com.example.frattab.dto.QuickConsumptionDto;
+import com.example.frattab.services.BillingService;
 import com.example.frattab.services.DrinkLogService;
 import com.example.frattab.services.DrinksService;
 import com.example.frattab.services.MembersService;
@@ -28,6 +29,8 @@ public class DashboardController {
     private DrinksService drinksService;
     @Autowired
     private DrinkLogService drinkLogService;
+    @Autowired
+    private BillingService billingService;
 
     @GetMapping("/dashboard")
     public String getDashboardPage(Model model, @RequestParam(defaultValue = "0") int logsPage) {
@@ -46,8 +49,9 @@ public class DashboardController {
     }
 
     @GetMapping("/dashboard/member/{memberId}/billing")
-    public String getMemberBillingDetailPage(@PathVariable int memberId) {
-
+    public String getMemberBillingDetailPage(Model model, @PathVariable long memberId,  @RequestParam(defaultValue = "0") int page) {
+        model.addAttribute("member", membersService.getMemberById(memberId));
+        model.addAttribute("billings", billingService.getBillingRunsForMember(memberId, page));
         return "./billing-detail";
     }
 
