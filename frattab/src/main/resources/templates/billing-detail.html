@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <th:block th:replace="fragments/layout/head :: head" pageTitle="Fraternity Beer Dashboard">
+    </th:block>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <body>
+
+
+
+
+        <div class="container billing-container mt-4">
+            <!-- User Information Section -->
+            <div class="user-info-card card shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="card-title mb-1">
+                                Michael Johnson <small class="text-muted">(MikeJ)</small>
+                            </h2>
+                            <p class="text-muted mb-0">michael.johnson@example.com</p>
+                        </div>
+                        <div
+                            class="user-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center">
+                            MJ
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Vertical Stepper -->
+            <div class="stepper-wrapper">
+                <!-- Current Billing Period -->
+                <div class="stepper-item active">
+                    <div class="stepper-counter">1</div>
+                    <div class="stepper-label">Current Period</div>
+                    <div class="stepper-content card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h4 class="mb-0">January 15, 2024 - April 14, 2024</h4>
+                            <p class="text-muted mb-0">Current billing cycle (not yet invoiced)</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Drink</th>
+                                            <th>Size</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Mar 28, 2024</td>
+                                            <td>Espresso</td>
+                                            <td>Regular</td>
+                                            <td>$3.50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mar 25, 2024</td>
+                                            <td>Cappuccino</td>
+                                            <td>Large</td>
+                                            <td>$4.75</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mar 20, 2024</td>
+                                            <td>Cold Brew</td>
+                                            <td>Medium</td>
+                                            <td>$4.25</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="table-active">
+                                            <td colspan="3" class="text-end"><strong>Current Total:</strong></td>
+                                            <td><strong>$12.50</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Previous Billing Periods -->
+                <div class="stepper-item">
+                    <div class="stepper-counter">2</div>
+                    <div class="stepper-label">Previous Period</div>
+                    <div class="stepper-content card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h4 class="mb-0">October 15, 2023 - January 14, 2024</h4>
+                            <p class="text-muted mb-0">Invoice #INV-2023-004 (Paid on Jan 15, 2024)</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Drink</th>
+                                            <th>Size</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Jan 10, 2024</td>
+                                            <td>Latte</td>
+                                            <td>Large</td>
+                                            <td>$5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dec 28, 2023</td>
+                                            <td>Americano</td>
+                                            <td>Regular</td>
+                                            <td>$3.25</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dec 15, 2023</td>
+                                            <td>Mocha</td>
+                                            <td>Medium</td>
+                                            <td>$4.50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nov 30, 2023</td>
+                                            <td>Espresso</td>
+                                            <td>Regular</td>
+                                            <td>$3.50</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="table-active">
+                                            <td colspan="3" class="text-end"><strong>Period Total:</strong></td>
+                                            <td><strong>$16.25</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="stepper-item">
+                    <div class="stepper-counter">3</div>
+                    <div class="stepper-label">Previous Period</div>
+                    <div class="stepper-content card shadow-sm">
+                        <div class="card-header bg-white">
+                            <h4 class="mb-0">July 15, 2023 - October 14, 2023</h4>
+                            <p class="text-muted mb-0">Invoice #INV-2023-003 (Paid on Oct 15, 2023)</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Drink</th>
+                                            <th>Size</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Oct 10, 2023</td>
+                                            <td>Iced Coffee</td>
+                                            <td>Large</td>
+                                            <td>$4.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sep 22, 2023</td>
+                                            <td>Cappuccino</td>
+                                            <td>Medium</td>
+                                            <td>$4.25</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="table-active">
+                                            <td colspan="3" class="text-end"><strong>Period Total:</strong></td>
+                                            <td><strong>$8.25</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CSS Styles -->
+        <style>
+            .billing-container {
+                max-width: 1200px;
+            }
+        
+            .user-info-card {
+                border-left: 4px solid #4e73df;
+                border-radius: 0.35rem;
+            }
+        
+            .user-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 1.25rem;
+                font-weight: 600;
+            }
+        
+            /* Stepper Styles */
+            .stepper-wrapper {
+                position: relative;
+                padding-left: 45px;
+            }
+        
+            .stepper-item {
+                position: relative;
+                padding-bottom: 30px;
+            }
+        
+            .stepper-item:last-child {
+                padding-bottom: 0;
+            }
+        
+            .stepper-item::before {
+                content: "";
+                position: absolute;
+                left: -30px;
+                top: 0;
+                height: 100%;
+                width: 2px;
+                background-color: #e0e0e0;
+            }
+        
+            .stepper-item.active::before {
+                background-color: #4e73df;
+            }
+        
+            .stepper-item:last-child::before {
+                height: 30px;
+            }
+        
+            .stepper-counter {
+                position: absolute;
+                left: -40px;
+                top: 0;
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                border-radius: 50%;
+                text-align: center;
+                background-color: #e0e0e0;
+                color: white;
+                font-weight: bold;
+                font-size: 12px;
+            }
+        
+            .stepper-item.active .stepper-counter {
+                background-color: #4e73df;
+            }
+        
+            .stepper-label {
+                font-weight: 600;
+                margin-bottom: 10px;
+                color: #6c757d;
+            }
+        
+            .stepper-item.active .stepper-label {
+                color: #4e73df;
+            }
+        
+            .stepper-content {
+                margin-bottom: 20px;
+            }
+        
+            /* Table Styles */
+            .table thead th {
+                border-top: none;
+                font-weight: 600;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: #6c757d;
+            }
+        
+            .table td,
+            .table th {
+                vertical-align: middle;
+                padding: 0.75rem;
+            }
+        
+            .table-sm td,
+            .table-sm th {
+                padding: 0.5rem;
+            }</style>
+
+
+
+
+
+
+
+
+    
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/updateMember.js}" defer></script>
+    </body>
+    
+    </html>
+

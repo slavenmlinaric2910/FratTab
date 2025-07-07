@@ -83,7 +83,7 @@
                                                 class="btn btn-sm btn-outline-dark"
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#updateDrinkLog" 
-                                                th:attr="data-drink-log-id=${log.id},
+                                                th:attr="data-drink-log-id=${drinkQty.id},
                                                 data-drink=${drinkQty.drink.name},
                                                 data-member=${log.member.firstName + ' ' + log.member.lastName + ' | ' + log.member.nickName}"
                                                 onclick="setDrinkLogId(event)">
