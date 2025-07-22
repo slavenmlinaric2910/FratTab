@@ -93,7 +93,6 @@ public class DrinkLogServiceImpl implements DrinkLogService {
             double lineTotal = drink.getPrice() * quantity;
             drinkQty.setTotal(lineTotal);
 
-
             // Link the line‑item to the parent log (handles setting both sides)
             drinkLog.addDrinkQty(drinkQty);
             // Accumulate into the log’s running total
@@ -107,7 +106,7 @@ public class DrinkLogServiceImpl implements DrinkLogService {
         DrinkLog saveLog = drinkLogRepository.save(drinkLog);
         saveLog.getDrinkQuantities().forEach(drinkQty -> {
             drinksService.updateDrinkQty(drinkQty.getDrink().getId(), drinkQty.getQty());
-        }) ;
+        });
     }
 
     /**
@@ -135,8 +134,8 @@ public class DrinkLogServiceImpl implements DrinkLogService {
         // Pre-populate one DrinkQtyDto per drink, qty default to 0
         for (Drink drink : drinks) {
             double roundedPrice = BigDecimal.valueOf(drink.getPrice())
-                .setScale(2, RoundingMode.HALF_UP)
-                .doubleValue();
+                    .setScale(2, RoundingMode.HALF_UP)
+                    .doubleValue();
             drink.setPrice(roundedPrice);
             DrinkQtyDto drinkQtyDto = new DrinkQtyDto();
             drinkQtyDto.setDrinkId(drink.getId());
@@ -189,9 +188,15 @@ public class DrinkLogServiceImpl implements DrinkLogService {
     @Override
     public ResponseDto updateDrinkLog(DrinkQtyDto drinkQtyDto) {
         DrinkQty drinkQty = drinkQtyRepository.findById(drinkQtyDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("DrinkQty with ID:" + drinkQtyDto.getId() + " not found!"));
-        int diffQty =  drinkQtyDto.getQty() - drinkQty.getQty();
+                .orElseThrow(
+                        () -> new EntityNotFoundException("DrinkQty with ID:" + drinkQtyDto.getId() + " not found!"));
+        Drink drink = drinkQty.getDrink();
+
+        int diffQty = drinkQtyDto.getQty() - drinkQty.getQty();
         drinkQty.setQty(drinkQtyDto.getQty());
+        double newTotal = drink.getPrice() * drinkQtyDto.getQty();
+        drinkQty.setTotal(newTotal);
+
         drinkQtyRepository.save(drinkQty);
         drinksService.updateDrinkQty(drinkQty.getDrink().getId(), diffQty);
 
@@ -200,6 +205,7 @@ public class DrinkLogServiceImpl implements DrinkLogService {
         response.setStatus("success");
         return response;
     }
+
     @Transactional
     @Override
     public DrinkQtyDto getDrinkLogById(long drinkQtyId) {

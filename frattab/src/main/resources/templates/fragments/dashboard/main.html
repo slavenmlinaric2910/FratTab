@@ -15,13 +15,13 @@
                     <i class="fas fa-truck"></i> Delivery
                 </button>
                 <!-- POST form wrapper around Send Billing -->
-                <form id="sendBillingForm" th:action="@{/dashboard/send-billing}" method="post" style="display:inline">
-                    <!-- Thymeleaf + Spring Security auto-adds:
-                    <input type="hidden" name="_csrf" value="…"/> -->
-                    <button type="button" class="btn btn-sm btn-warning" onclick="confirmAndSubmit()">
+                <form id="sendBillingForm" th:action="@{/dashboard/send-billing}" method="post" class="d-inline-block m-0 p-0">
+                    <button type="button" class="btn  btn-primary" data-bs-toggle="modal" data-bs-target="#confirmBillingModal">
                         <i class="fas fa-envelope"></i> Send Billing
                     </button>
                 </form>
+
+
             </div>
         </div>
     </div>
@@ -70,7 +70,9 @@
 
                                     <tr th:each="drinkQty : ${log.drinkQuantities}">
                                         <td
-                                            th:text="${log.member.firstName + ' ' + log.member.lastName + ' | ' + log.member.nickName}">
+                                            th:text="${#strings.isEmpty(log.member.nickName) 
+                                                ? log.member.firstName + ' ' + log.member.lastName 
+                                                : log.member.nickName}">
                                         </td>
                                         <td th:text="${drinkQty.drink.name}">IPA</td>
                                         <td th:text="${drinkQty.qty}">1</td>
@@ -128,14 +130,30 @@
             </div>
         </div>
     </div>
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        function confirmAndSubmit() {
-            if (confirm('Are you sure you want to send billing emails now?')) {
-                document.getElementById('sendBillingForm').submit();
-            }
-        }
-        /*]]>*/
-    </script>
+
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmBillingModal" tabindex="-1" aria-labelledby="confirmBillingModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmBillingModalLabel">Confirm Send Billing</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to send billing emails now?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <!-- The button that actually submits the form -->
+                <button type="button" class="btn btn-success"
+                    onclick="document.getElementById('sendBillingForm').submit();">
+                    <i class="fas fa-envelope"></i> Yes, Send
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </div>

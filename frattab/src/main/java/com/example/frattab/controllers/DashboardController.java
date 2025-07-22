@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.frattab.dto.DeliveryRequestDto;
 import com.example.frattab.dto.DrinkDto;
-
+import com.example.frattab.dto.DrinkLogDto;
 import com.example.frattab.dto.DrinkQtyDto;
 import com.example.frattab.dto.MemberDto;
 import com.example.frattab.dto.QuickConsumptionDto;
@@ -52,7 +52,8 @@ public class DashboardController {
     }
 
     @PostMapping("/dashboard/drinklog/update")
-    public String updateDrinkLog(@ModelAttribute DrinkQtyDto drinkQtyDto, RedirectAttributes redirectAttributes) {
+    public String updateDrinkLog(@ModelAttribute DrinkQtyDto drinkQtyDto, DrinkLogDto drinkLogDto,
+            RedirectAttributes redirectAttributes) {
         // TODO: process POST request
         redirectAttributes.addFlashAttribute("response", drinkLogService.updateDrinkLog(drinkQtyDto));
         return "redirect:/dashboard";
