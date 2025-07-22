@@ -81,25 +81,26 @@
         </div>
 
         <!-- Previous Billing Periods -->
-        <div class="stepper-item" th:if="${billings != null and !billings.isEmpty() and billings.size() > 1}">
-            <th:block th:each="billing, iterStat : ${billings}" th:if="${iterStat.index > 0}">            
-            <div class="stepper-counter" style="color: #111116;" th:text="${iterStat.index + 1}">2</div>
-            <div class="stepper-label">Previous Period</div>
-            <div class="stepper-content card shadow-sm">
-                <div class="card-header bg-white">
-<h4 class="mb-0" th:each="billing, iterStat : ${billings}">
-    <!-- First date (periodEnd of next billing) -->
-    <span th:with="
-        nextBilling=${iterStat.index + 1 < billings.size() ? billings[iterStat.index + 1].periodEnd : 
-                        billing.periodEnd.minusMonths(3)},
-        currentEnd=${billing.periodEnd}
-    ">
-        <!-- Format dates nicely -->
-        <span th:text="${#temporals.format(nextBilling, 'MMMM d, yyyy')}">October 15, 2023</span>
-        - 
-        <span th:text="${#temporals.format(currentEnd, 'MMMM d, yyyy')}">January 14, 2024</span>
-    </span>
-</h4>
+         <th:block th:if="${billings != null and !billings.isEmpty() and billings.size() > 1}">
+             <th:block th:each="billing, iterStat : ${billings}" th:if="${iterStat.index > 0}">            
+             <div class="stepper-item" >
+                     <div class="stepper-counter" style="color: #111116;" th:text="${iterStat.index + 1}">2</div>
+                     <div class="stepper-label">Previous Period</div>
+                     <div class="stepper-content card shadow-sm">
+                         <div class="card-header bg-white">
+                             <h4 class="mb-0" th:each="billing, iterStat : ${billings}">
+                                 <!-- First date (periodEnd of next billing) -->
+                                 <span th:with="
+                                 nextBilling=${iterStat.index + 1 < billings.size() ? billings[iterStat.index + 1].periodEnd : 
+                                    billing.periodEnd.minusMonths(3)},
+                                    currentEnd=${billing.periodEnd}
+                                    ">
+                                        <!-- Format dates nicely -->
+                                        <span th:text="${#temporals.format(nextBilling, 'MMMM d, yyyy')}">October 15, 2023</span>
+                                        - 
+                                        <span th:text="${#temporals.format(currentEnd, 'MMMM d, yyyy')}">January 14, 2024</span>
+                                    </span>
+                                </h4>
                     <p class="text-muted mb-0">Invoice #INV-2023-004 (Paid on Jan 15, 2024)</p>
                 </div>
                 <div class="card-body">
@@ -120,24 +121,6 @@
                                     <td>Large</td>
                                     <td>$5.00</td>
                                 </tr>
-                                <tr>
-                                    <td>Dec 28, 2023</td>
-                                    <td>Americano</td>
-                                    <td>Regular</td>
-                                    <td>$3.25</td>
-                                </tr>
-                                <tr>
-                                    <td>Dec 15, 2023</td>
-                                    <td>Mocha</td>
-                                    <td>Medium</td>
-                                    <td>$4.50</td>
-                                </tr>
-                                <tr>
-                                    <td>Nov 30, 2023</td>
-                                    <td>Espresso</td>
-                                    <td>Regular</td>
-                                    <td>$3.50</td>
-                                </tr>
                             </tbody>
                             <tfoot>
                                 <tr class="table-active">
@@ -149,8 +132,8 @@
                     </div>
                 </div>
             </div>
-        </th:block>
         </div>
-
+    </th:block>
+    </th:block>
     </div>
 </div>
