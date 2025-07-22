@@ -1,5 +1,7 @@
 package com.example.frattab.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 import com.example.frattab.dto.DrinkLogDto;
@@ -21,5 +23,6 @@ public interface DrinkLogService {
     ResponseDto updateDrinkLog(DrinkQtyDto drinkQtyDto);
 
     DrinkQtyDto getDrinkLogById(long drinkQtyId);
+
 
 }

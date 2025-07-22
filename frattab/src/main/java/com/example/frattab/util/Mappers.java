@@ -2,10 +2,12 @@ package com.example.frattab.util;
 
 import org.springframework.stereotype.Component;
 
+import com.example.frattab.dto.BillingRunDto;
 import com.example.frattab.dto.DrinkDto;
 import com.example.frattab.dto.DrinkLogDto;
 import com.example.frattab.dto.DrinkQtyDto;
 import com.example.frattab.dto.MemberDto;
+import com.example.frattab.models.BillingRun;
 import com.example.frattab.models.Drink;
 import com.example.frattab.models.DrinkLog;
 import com.example.frattab.models.DrinkQty;
@@ -52,6 +54,7 @@ public class Mappers {
         drinkQtyDto.setId(drinkQty.getId());
         drinkQtyDto.setQty(drinkQty.getQty());
         drinkQtyDto.setDrinkId(drinkQty.getDrink().getId());
+        drinkQtyDto.setDrink(drinkToDrinkDto(drinkQty.getDrink()));
 
         return drinkQtyDto;
     }
@@ -62,6 +65,24 @@ public class Mappers {
         drinkLogDto.setDrinkQuantities(drinkLog.getDrinkQuantities().stream()
             .map(this::drinkQtyToDrinkQtyDto)
             .toList());
+        drinkLogDto.setTotal(drinkLog.getTotal());
+        drinkLogDto.setBilled(drinkLog.isBilled());
+        drinkLogDto.setPaid(drinkLog.isPaid());
+        drinkLogDto.setCreatedAt(drinkLog.getCreatedAt());
+
+        if(drinkLog.getBillingRun() != null){
+            BillingRunDto billingRunDto = billingRunToBillingRunDto(drinkLog.getBillingRun());
+            drinkLogDto.setBillingRun(billingRunDto);
+        } else {
+            drinkLogDto.setBillingRun(null);
+        }
         return drinkLogDto;
+    }
+    public BillingRunDto billingRunToBillingRunDto(BillingRun billingRun) {
+        BillingRunDto billingRunDto = new BillingRunDto();
+        billingRunDto.setId(billingRun.getId());
+        billingRunDto.setRunTimestamp(billingRun.getRunTimestamp());
+
+        return billingRunDto;
     }
 }

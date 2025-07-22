@@ -6,5 +6,6 @@ import lombok.Data;
 public class DrinkQtyDto {
     private Long id;
     private Long drinkId;
+    private DrinkDto drink;
     private int qty;
 }
