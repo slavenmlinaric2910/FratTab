@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.frattab.models.DrinkLog;
 
@@ -42,4 +44,10 @@ public interface DrinkLogRepository extends JpaRepository<DrinkLog, Long> {
         @Query(value = "SELECT ROUND(CAST(COALESCE(SUM(d.total), 0) AS NUMERIC), 2) FROM drink_log d " +
                         "WHERE d.member_id = :memberId AND d.is_billed = false", nativeQuery = true)
         Double sumAndRoundTotalByMemberIdAndNotBilled(@Param("memberId") Long memberId);
+
+        @Modifying
+        @Transactional
+        @Query("UPDATE DrinkLog d SET d.isPaid = true WHERE d.billingRun.id = :billingRunId AND d.member.id = :memberId")
+        void markAsPaid(@Param("billingRunId") Long billingRunId, @Param("memberId") Long memberId);
+
 }

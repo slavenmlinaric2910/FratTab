@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import com.example.frattab.dto.BillingRunDetailDto;
 import com.example.frattab.dto.DrinkLogDto;
 import com.example.frattab.dto.MemberBillDto;
+import com.example.frattab.dto.ResponseDto;
 import com.example.frattab.models.DrinkLog;
 
 public interface BillingService {
@@ -28,4 +29,6 @@ public interface BillingService {
     List<DrinkLog> getDrinkLogsForCurrentBillingCycleForMember(Long memberId);
 
     Double getTotalForCurrentBillingCycleForMember(Long memberId);
+
+    ResponseDto markBillIdForMemberIdAsPaid(Long billId, Long memberId);
 }

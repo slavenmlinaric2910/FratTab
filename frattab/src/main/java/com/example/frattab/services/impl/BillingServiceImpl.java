@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.frattab.dto.BillingRunDetailDto;
 import com.example.frattab.dto.DrinkLogDto;
 import com.example.frattab.dto.MemberBillDto;
+import com.example.frattab.dto.ResponseDto;
 import com.example.frattab.models.BillingRun;
 import com.example.frattab.models.DrinkLog;
 import com.example.frattab.models.Member;
@@ -203,5 +204,14 @@ public class BillingServiceImpl implements BillingService {
         @Override
         public Double getTotalForCurrentBillingCycleForMember(Long memberId) {
                 return drinkLogRepository.sumAndRoundTotalByMemberIdAndNotBilled(memberId);
+        }
+
+        @Override
+        public ResponseDto markBillIdForMemberIdAsPaid(Long billId, Long memberId) {
+                drinkLogRepository.markAsPaid(billId, memberId);
+                ResponseDto responseDto = new ResponseDto();
+                responseDto.setStatus("success");
+                responseDto.setMessage("Paid");
+                return responseDto;
         }
 }

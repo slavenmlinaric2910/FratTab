@@ -59,18 +59,18 @@ public class Mappers {
         return drinkQtyDto;
     }
 
-    public DrinkLogDto drinkLogToDrinkLogDto(DrinkLog drinkLog){
+    public DrinkLogDto drinkLogToDrinkLogDto(DrinkLog drinkLog) {
         DrinkLogDto drinkLogDto = new DrinkLogDto();
-        drinkLogDto.setMemberId(drinkLog.getId());
+        drinkLogDto.setMemberId(drinkLog.getMember().getId());
         drinkLogDto.setDrinkQuantities(drinkLog.getDrinkQuantities().stream()
-            .map(this::drinkQtyToDrinkQtyDto)
-            .toList());
+                .map(this::drinkQtyToDrinkQtyDto)
+                .toList());
         drinkLogDto.setTotal(drinkLog.getTotal());
         drinkLogDto.setBilled(drinkLog.isBilled());
         drinkLogDto.setPaid(drinkLog.isPaid());
         drinkLogDto.setCreatedAt(drinkLog.getCreatedAt());
 
-        if(drinkLog.getBillingRun() != null){
+        if (drinkLog.getBillingRun() != null) {
             BillingRunDto billingRunDto = billingRunToBillingRunDto(drinkLog.getBillingRun());
             drinkLogDto.setBillingRun(billingRunDto);
         } else {
@@ -78,6 +78,7 @@ public class Mappers {
         }
         return drinkLogDto;
     }
+
     public BillingRunDto billingRunToBillingRunDto(BillingRun billingRun) {
         BillingRunDto billingRunDto = new BillingRunDto();
         billingRunDto.setId(billingRun.getId());

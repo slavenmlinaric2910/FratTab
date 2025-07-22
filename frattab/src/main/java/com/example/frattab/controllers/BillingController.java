@@ -4,6 +4,7 @@ package com.example.frattab.controllers;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,13 +26,22 @@ public class BillingController {
         List<MemberBillDto> bills = billingService.runQuarterlyBilling();
 
         long emailsSent = bills.stream()
-            .filter(b -> b.getAmountOwed() > 0.0)
-            .count();
+                .filter(b -> b.getAmountOwed() > 0.0)
+                .count();
 
         flash.addFlashAttribute("billingMessage",
-            "Billing emails sent to " + emailsSent + " member"
-            + (emailsSent == 1 ? "" : "s") + ".");
+                "Billing emails sent to " + emailsSent + " member"
+                        + (emailsSent == 1 ? "" : "s") + ".");
 
         return "redirect:/dashboard";
+    }
+
+    @PostMapping("/dashboard/member/{memberId}/bill/{billId}/paid")
+    public String markBillAsPaid(@PathVariable Long memberId, @PathVariable Long billId,
+            RedirectAttributes redirectAttributes) {
+
+        billingService.markBillIdForMemberIdAsPaid(billId, memberId);
+        // Redirect to a relevant page, e.g., member's billing history
+        return "redirect:/dashboard/member/" + memberId + "/billing";
     }
 }

@@ -128,10 +128,15 @@
                                 <!-- <span th:if="${iterStat.index == 0}" class="status-badge status-pending">Invoiced</span>
                                 <span th:if="${iterStat.index > 0}" class="status-badge status-paid">Paid on Apr 15, 2023</span> -->
                                 <div th:if="${not billing.drinkLogs.empty}">
-                                    <span th:if="${not billing.drinkLogs.empty} and ${billing.drinkLogs[0].isPaid == false}"
-                                    class="status-badge status-pending" th:text="#{billing.invoiced}">Invoiced</span>
-                                    <span> | </span>
-                                    <button th:text="#{billing.markAsPaid}">Mark as Paid</button>
+                                    <div th:if="${not billing.drinkLogs.empty} and ${billing.drinkLogs[0].isPaid == false}" class="d-flex">
+                                        <span
+                                        class="status-badge status-pending" th:text="#{billing.invoiced}">Invoiced</span>
+                                        <span> | </span>
+                                        <form th:action="@{/dashboard/member/{memberId}/bill/{billId}/paid(memberId=${billing.drinkLogs[0].memberId}, billId=${billing.drinkLogs[0].billingRun.id})}"
+                                            method="post">
+                                            <button type="submit" th:text="#{billing.markAsPaid}">Mark as Paid</button>
+                                        </form>
+                                    </div>
                                     <span th:if="${not billing.drinkLogs.empty} and ${billing.drinkLogs[0].isPaid == true}"
                                     class="status-badge status-pending" th:text="#{billing.paid}">Paid</span>
                                 </div>
