@@ -4,8 +4,8 @@
 <body class="bg-light">
   <header class="bg-dark text-white text-center py-4 mb-4 position-relative">
     <button class="btn btn-outline-light position-absolute start-0 top-50 translate-middle-y ms-3"
-            onclick="history.back()">← Back</button>
-    <h2 class="h4 mb-0" th:text="'Select Drinks for ' + ${member.firstName} + ' ' + ${member.lastName}"></h2>
+            onclick="history.back()" th:text="#{drink.selection.back}">← Back</button>
+    <h2 class="h4 mb-0" th:text="${#messages.msgOrNull('drink.selection.header', ${member.firstName}, ${member.lastName})}">Select Drinks for ...</h2>
   </header>
 
   <main class="container">
@@ -39,8 +39,8 @@
 
       <footer class="fixed-bottom bg-white py-3 border-top">
     <div class="container d-flex justify-content-center gap-3">
-      <a href="/members" class="btn btn-secondary me-2">Back</a>
-        <button type="submit" class="btn btn-primary">Submit</button>
+      <a href="/members" class="btn btn-secondary me-2" th:text="#{drink.selection.back.button}">Back</a>
+        <button type="submit" class="btn btn-primary" th:text="#{drink.selection.submit.button}">Submit</button>
     </div>
   </footer>
     </form>

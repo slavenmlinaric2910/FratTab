@@ -1,25 +1,25 @@
 <div th:fragment="main" class="col-md-10 ms-sm-auto main-content">
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
+        <h1 class="h2" th:text="#{dashboard.title}">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div>
                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                     data-bs-target="#quickAddModal">
-                    <i class="fas fa-plus"></i> Quick Add
+                    <i class="fas fa-plus"></i> <span th:text="#{dashboard.quickadd}">Quick Add</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#drinks">
-                    <i class="fas fa-beer"></i> Drinks
+                    <i class="fas fa-beer"></i> <span th:text="#{dashboard.drinks}">Drinks</span>
                 </button>
                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#delivery">
-                    <i class="fas fa-truck"></i> Delivery
+                    <i class="fas fa-truck"></i> <span th:text="#{dashboard.delivery}">Delivery</span>
                 </button>
                 <!-- POST form wrapper around Send Billing -->
                 <form id="sendBillingForm" th:action="@{/dashboard/send-billing}" method="post" style="display:inline">
                     <!-- Thymeleaf + Spring Security auto-adds:
                     <input type="hidden" name="_csrf" value="…"/> -->
                     <button type="button" class="btn btn-sm btn-warning" onclick="confirmAndSubmit()">
-                        <i class="fas fa-envelope"></i> Send Billing
+                        <i class="fas fa-envelope"></i> <span th:text="#{dashboard.sendbilling}">Send Billing</span>
                     </button>
                 </form>
             </div>
@@ -34,13 +34,13 @@
         <div class="col-md-3">
             <div class="card stat-card">
                 <div class="value" th:text="${membersCount}">42</div>
-                <div class="label">Active Members</div>
+                <div class="label" th:text="#{dashboard.stats.members}">Active Members</div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card stat-card">
                 <div class="value" th:text="'€ ' + ${monthlySpending}">$327</div>
-                <div class="label">Monthly Spend</div>
+                <div class="label" th:text="#{dashboard.stats.spend}">Monthly Spend</div>
             </div>
         </div>
     </div>
@@ -48,21 +48,19 @@
     <div class="row mt-4">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">
-                    Recent Consumption
-                </div>
+                <div class="card-header" th:text="#{dashboard.recent}">Recent Consumption</div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Member</th>
-                                    <th>Drink</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>Total</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
+                                    <th th:text="#{dashboard.table.member}">Member</th>
+                                    <th th:text="#{dashboard.table.drink}">Drink</th>
+                                    <th th:text="#{dashboard.table.qty}">Qty</th>
+                                    <th th:text="#{dashboard.table.price}">Price</th>
+                                    <th th:text="#{dashboard.table.total}">Total</th>
+                                    <th th:text="#{dashboard.table.date}">Date</th>
+                                    <th th:text="#{dashboard.table.action}">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -101,14 +99,12 @@
 
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header">
-                    Inventory Status
-                </div>
+                <div class="card-header" th:text="#{dashboard.inventory}">Inventory Status</div>
                 <div class="card-body">
                     <div class="mb-3">
                         <h6 class="d-flex justify-content-between">
-                            <span>Drink</span>
-                            <span>Qty.</span>
+                            <span th:text="#{dashboard.table.drink}">Drink</span>
+                            <span th:text="#{dashboard.table.qty}">Qty.</span>
                         </h6>
                     </div>
                     <th:block th:if="${!drinks.isEmpty()}">
@@ -122,8 +118,8 @@
                         </div> -->
                         </div>
                     </th:block>
-                    <div class="mb-3" th:if="${drinks.isEmpty()}">No Drinks</div>
-                    <button class="btn btn-primary w-100 mt-2">Order More</button>
+                    <div class="mb-3" th:if="${drinks.isEmpty()}" th:text="#{dashboard.inventory.nodrinks}">No Drinks</div>
+                    <button class="btn btn-primary w-100 mt-2" th:text="#{dashboard.inventory.order}">Order More</button>
                 </div>
             </div>
         </div>
@@ -131,7 +127,7 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         function confirmAndSubmit() {
-            if (confirm('Are you sure you want to send billing emails now?')) {
+            if (confirm(/*[[#{dashboard.sendbilling.confirm}]]*/'Are you sure you want to send billing emails now?')) {
                 document.getElementById('sendBillingForm').submit();
             }
         }

@@ -3,14 +3,14 @@
         <div class="modal-content">
             <form id="quickAddForm" method="post" th:action="@{/dashboard/quick-add}">
                 <div class="modal-header">
-                    <h5 class="modal-title">Quick Add Consumption</h5>
+                    <h5 class="modal-title" th:text="#{quickadd.modal.title}">Quick Add Consumption</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="memberSelect" class="form-label">Member</label>
+                        <label for="memberSelect" class="form-label" th:text="#{quickadd.modal.member}">Member</label>
                         <select class="form-select" id="memberSelect" name="memberId" required>
-                            <option value="">Select a member</option>
+                            <option value="" th:text="#{quickadd.modal.member.option}">Select a member</option>
                             <option th:each="member : ${members}" th:text="${member.firstName + ' ' + member.lastName + 
                                              (member.nickName != null ? ' (' + member.nickName + ')' : ' (no nickname)')}" th:value="${member.id}">
                                 John Doe
@@ -19,21 +19,21 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="drinkSelect" class="form-label">Drink</label>
+                        <label for="drinkSelect" class="form-label" th:text="#{quickadd.modal.drink}">Drink</label>
                         <select class="form-select" id="drinkSelect" name="drinkId" required>
-                            <option value="">Select a drink</option>
+                            <option value="" th:text="#{quickadd.modal.drink.option}">Select a drink</option>
                             <option th:each="drink : ${drinks}" th:text="${drink.name}"  th:value="${drink.id}">IPA</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="quantityInput" class="form-label">Quantity</label>
+                        <label for="quantityInput" class="form-label" th:text="#{quickadd.modal.qty}">Quantity</label>
                         <input type="number" class="form-control" id="quantityInput" name="quantity" value="1" min="1"
                             required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Record Consumption</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{quickadd.modal.close}">Close</button>
+                    <button type="submit" class="btn btn-primary" th:text="#{quickadd.modal.button}">Record Consumption</button>
                 </div>
             </form>
         </div>

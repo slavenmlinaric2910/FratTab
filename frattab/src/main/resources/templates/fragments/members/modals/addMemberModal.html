@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Fraternity Member</h5>
+                <h5 class="modal-title" th:text="#{addmember.modal.title}">Add Fraternity Member</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form th:action="@{/dashboard/members}" th:object="${member}" method="post">
@@ -10,31 +10,31 @@
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="firstName" class="form-label">First Name</label>
+                            <label for="firstName" class="form-label" th:text="#{addmember.modal.firstname}">First Name</label>
                             <input type="text" class="form-control" id="firstName" name="firstName">
-                            <div class="invalid-feedback">Please provide a first name.</div>
+                            <div class="invalid-feedback" th:text="#{addmember.modal.firstname.invalid}">Please provide a first name.</div>
                         </div>
                         <div class="col-md-6">
-                            <label for="lastName" class="form-label">Last Name</label>
+                            <label for="lastName" class="form-label" th:text="#{addmember.modal.lastname}">Last Name</label>
                             <input type="text" class="form-control" id="lastName" name="lastName">
-                            <div class="invalid-feedback">Please provide a last name.</div>
+                            <div class="invalid-feedback" th:text="#{addmember.modal.lastname.invalid}">Please provide a last name.</div>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="nickname" class="form-label">Nickname</label>
-                        <input type="text" class="form-control" id="nickName" name="nickName" placeholder="Optional">
+                        <label for="nickname" class="form-label" th:text="#{addmember.modal.nickname}">Nickname</label>
+                        <input type="text" class="form-control" id="nickName" name="nickName" th:placeholder="#{addmember.modal.nickname.placeholder}" placeholder="Optional">
                     </div>
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="member@example.com">
-                        <div class="invalid-feedback">Please provide a valid email.</div>
+                        <label for="email" class="form-label" th:text="#{addmember.modal.email}">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" th:placeholder="#{addmember.modal.email.placeholder}" placeholder="member@example.com">
+                        <div class="invalid-feedback" th:text="#{addmember.modal.email.invalid}">Please provide a valid email.</div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Member</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{addmember.modal.cancel}">Cancel</button>
+                    <button type="submit" class="btn btn-primary" th:text="#{addmember.modal.save}">Save Member</button>
                 </div>
             </form>
         </div>

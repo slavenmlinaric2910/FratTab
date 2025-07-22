@@ -25,7 +25,7 @@
                         <span>0</span>
                     </div>
                     <div class="stepper-label">
-                        <span>Current billing cycle</span>
+                        <span th:text="#{billing.currentCycle}">Current billing cycle</span>
                     </div>
 
                     <div class="stepper-content card shadow-sm">
@@ -47,11 +47,11 @@
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
-                                            <th>Drink</th>
-                                            <th>Qty</th>
-                                            <th>Current Price</th>
-                                            <th>Total</th>
+                                            <th th:text="#{dashboard.table.date}">Date</th>
+                                            <th th:text="#{dashboard.table.drink}">Drink</th>
+                                            <th th:text="#{dashboard.table.qty}">Qty</th>
+                                            <th th:text="#{billing.currentPrice}">Current Price</th>
+                                            <th th:text="#{dashboard.table.total}">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -78,7 +78,7 @@
                                     <tfoot>
                                         <tr class="table-active">
                                             <td colspan="5" class="text-end">
-                                                <strong >Current Total:</strong>
+                                                <strong th:text="#{billing.currentTotal}">Current Total:</strong>
                                             </td>
                                             <td>
                                                 <strong th:text="${sumTotalForCurrentBillingPeriod}">$42.50</strong>
@@ -100,8 +100,8 @@
                         <span th:text="${iterStat.index + 1}">1</span>
                     </div>
                     <div class="stepper-label">
-                        <span th:if="${iterStat.index == 0}">Latest Invoiced Period</span>
-                        <span th:if="${iterStat.index > 0}">Previous Period</span>
+                        <span th:if="${iterStat.index == 0}" th:text="#{billing.latestInvoiced}">Latest Invoiced Period</span>
+                        <span th:if="${iterStat.index > 0}" th:text="#{billing.previousPeriod}">Previous Period</span>
                     </div>
                     <div class="stepper-content card shadow-sm">
                         <div class="card-header bg-white">
@@ -129,10 +129,11 @@
                                 <span th:if="${iterStat.index > 0}" class="status-badge status-paid">Paid on Apr 15, 2023</span> -->
                                 <div th:if="${not billing.drinkLogs.empty}">
                                     <span th:if="${not billing.drinkLogs.empty} and ${billing.drinkLogs[0].isPaid == false}"
-                                    class="status-badge status-pending">Invoiced <span> | </span>
-                                    <button>Mark as Paid</button></span>
+                                    class="status-badge status-pending" th:text="#{billing.invoiced}">Invoiced</span>
+                                    <span> | </span>
+                                    <button th:text="#{billing.markAsPaid}">Mark as Paid</button>
                                     <span th:if="${not billing.drinkLogs.empty} and ${billing.drinkLogs[0].isPaid == true}"
-                                    class="status-badge status-pending">Paid</span>
+                                    class="status-badge status-pending" th:text="#{billing.paid}">Paid</span>
                                 </div>
                             </div>
                             <!-- <p class="text-muted mb-0" th:if="${iterStat.index == 0}">Current billing cycle (not yet invoiced)</p> -->
@@ -142,11 +143,11 @@
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
-                                            <th>Drink</th>
-                                            <th>Qty</th>
-                                            <th>Current Price</th>
-                                            <th>Total</th>
+                                            <th th:text="#{dashboard.table.date}">Date</th>
+                                            <th th:text="#{dashboard.table.drink}">Drink</th>
+                                            <th th:text="#{dashboard.table.qty}">Qty</th>
+                                            <th th:text="#{billing.currentPrice}">Current Price</th>
+                                            <th th:text="#{dashboard.table.total}">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -173,8 +174,8 @@
                                     <tfoot>
                                         <tr class="table-active">
                                             <td colspan="5" class="text-end">
-                                                <strong th:if="${iterStat.index == 0}">Current Total:</strong>
-                                                <strong th:if="${iterStat.index > 0}">Period Total:</strong>
+                                                <strong th:if="${iterStat.index == 0}" th:text="#{billing.currentTotal}">Current Total:</strong>
+                                                <strong th:if="${iterStat.index > 0}" th:text="#{billing.periodTotal}">Period Total:</strong>
                                             </td>
                                             <td>
                                                 <!-- <strong th:if="${iterStat.index == 0}">$42.50</strong>
