@@ -17,123 +17,177 @@
                 </div> -->
             </div>
         </div>
-    </div>
-
-    <!-- Vertical Stepper -->
-    <div class="stepper-wrapper">
-        <!-- Current Billing Period -->
-        <div class="stepper-item active">
-            <div class="stepper-counter">1</div>
-            <div class="stepper-label">Current Period</div>
-            <div class="stepper-content card shadow-sm">
-                <div class="card-header bg-white">
-                    <h4 class="mb-0" th:if="${billings != null and !billings.isEmpty()}">
-                        <!-- Show the second date first if it exists -->
-                        <span th:if="${billings.size() > 1}"
-                            th:text="${#temporals.format(billings[1].periodEnd, 'MMMM d, yyyy')}"></span>
-                        <!-- Otherwise show first date minus 3 months first -->
-                        <span th:unless="${billings.size() > 1}"
-                            th:text="${#temporals.format(billings[0].periodEnd.minusMonths(3), 'MMMM d, yyyy')}"></span>
-                        <span> - </span>
-                        <!-- Always show the first date second -->
-                        <span th:text="${#temporals.format(billings[0].periodEnd, 'MMMM d, yyyy')}"></span>
-                    </h4>
-                    <p class="text-muted mb-0">Current billing cycle (not yet invoiced)</p>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Drink</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- <th:block th:each="billing : ${billings}"> -->
-                                    <th:block th:each="drinkLog : ${billings.[0].drinkLogs}">
-                                        <tr th:each="drinkQty : ${drinkLog.drinkQuantities}">
-                                            <td th:text="${#temporals.format(drinkLog.createdAt, 'MMMM d, yyyy')}">Mar 28, 2024</td>
-                                            <td th:text="${drinkQty.drink.name}">Espresso</td>
-                                            <td th:text="${drinkQty.qty}">Regular</td>
-                                            <td th:text="${drinkQty.drink.price}">$3.50</td>
-                                            <td th:text="${drinkQty.drink.price * drinkQty.qty}"></td>
-                                        </tr>
-                                    </th:block>
-                                        
-
-                                <!-- </th:block> -->
-  
-                            </tbody>
-                            <tfoot>
-                                <tr class="table-active">
-                                    <td colspan="4" class="text-end"><strong>Current Total:</strong></td>
-                                    <td><strong th:text="${billings.[0].total}">$12.50</strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
+    </div>    
+            <!-- Vertical Stepper -->
+            <div class="stepper-wrapper">
+                <div class="stepper-item active">
+                    <div class="stepper-counter">
+                        <span>0</span>
                     </div>
-                </div>
-            </div>
-        </div>
+                    <div class="stepper-label">
+                        <span>Current billing cycle</span>
+                    </div>
 
-        <!-- Previous Billing Periods -->
-         <th:block th:if="${billings != null and !billings.isEmpty() and billings.size() > 1}">
-             <th:block th:each="billing, iterStat : ${billings}" th:if="${iterStat.index > 0}">            
-             <div class="stepper-item" >
-                     <div class="stepper-counter" style="color: #111116;" th:text="${iterStat.index + 1}">2</div>
-                     <div class="stepper-label">Previous Period</div>
-                     <div class="stepper-content card shadow-sm">
-                         <div class="card-header bg-white">
-                             <h4 class="mb-0" th:each="billing, iterStat : ${billings}">
-                                 <!-- First date (periodEnd of next billing) -->
-                                 <span th:with="
-                                 nextBilling=${iterStat.index + 1 < billings.size() ? billings[iterStat.index + 1].periodEnd : 
-                                    billing.periodEnd.minusMonths(3)},
-                                    currentEnd=${billing.periodEnd}
-                                    ">
-                                        <!-- Format dates nicely -->
-                                        <span th:text="${#temporals.format(nextBilling, 'MMMM d, yyyy')}">October 15, 2023</span>
-                                        - 
-                                        <span th:text="${#temporals.format(currentEnd, 'MMMM d, yyyy')}">January 14, 2024</span>
+                    <div class="stepper-content card shadow-sm">
+                        <div class="card-header bg-white">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                <h4 class="mb-0">
+                                    <span>
+                                        <span th:text="${#temporals.format(billings[0].periodEnd, 'MMMM d, yyyy')}">April
+                                            15, 2023</span>
+                                        <span> - </span>
+                                        <span >Today</span>
                                     </span>
                                 </h4>
-                    <p class="text-muted mb-0">Invoice #INV-2023-004 (Paid on Jan 15, 2024)</p>
+                            </div>
+                            <!-- <p class="text-muted mb-0" th:if="${iterStat.index == 0}">Current billing cycle (not yet invoiced)</p> -->
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Drink</th>
+                                            <th>Qty</th>
+                                            <th>Current Price</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <th:block th:each=" log, iterStat : ${currentBillingPeriod}">
+                                            <th:block th:each="drinkQty : ${log.drinkQuantities}">
+                                                <tr th:if="${iterStat.index % 2 == 0}">
+                                                    <td th:text="${#temporals.format(log.createdAt, 'MMMM d, yyyy')}">Jul 10, 2023</td>
+                                                    <td th:text="${drinkQty.drink.name}">Beer</td>
+                                                    <td th:text="${drinkQty.qty}">1</td>
+                                                    <td th:text="${drinkQty.drink.price}">$3.50</td>
+                                                    <td th:text="${log.total}">$3.50</td>
+                                                </tr>
+                                                <tr th:if="${iterStat.index % 2 != 0}">
+                                                    <td th:text="${#temporals.format(log.createdAt, 'MMMM d, yyyy')}"
+                                                        style="background-color: #75767d;">Jul 10, 2023</td>
+                                                    <td th:text="${drinkQty.drink.name}" style="background-color: #75767d;">Beer</td>
+                                                    <td th:text="${drinkQty.qty}" style="background-color: #75767d;">1</td>
+                                                    <td th:text="${drinkQty.drink.price}" style="background-color: #75767d;">$3.50</td>
+                                                    <td th:text="${log.total}" style="background-color: #75767d;">$3.50</td>
+                                                </tr>
+                                            </th:block>
+                                        </th:block>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="table-active">
+                                            <td colspan="5" class="text-end">
+                                                <strong >Current Total:</strong>
+                                            </td>
+                                            <td>
+                                                <strong th:text="${sumTotalForCurrentBillingPeriod}">$42.50</strong>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Drink</th>
-                                    <th>Size</th>
-                                    <th>Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Jan 10, 2024</td>
-                                    <td>Latte</td>
-                                    <td>Large</td>
-                                    <td>$5.00</td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr class="table-active">
-                                    <td colspan="3" class="text-end"><strong>Period Total:</strong></td>
-                                    <td><strong>$16.25</strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                <!-- Single loop through billings -->
+                <div th:each="billing, iterStat : ${billings}" th:class="${iterStat.index == 0} ? 
+                                           'stepper-item active' : 
+                                           'stepper-item completed'">
+                    <div class="stepper-counter">
+                        <span th:text="${iterStat.index + 1}">1</span>
+                    </div>
+                    <div class="stepper-label">
+                        <span th:if="${iterStat.index == 0}">Latest Invoiced Period</span>
+                        <span th:if="${iterStat.index > 0}">Previous Period</span>
+                    </div>
+                    <div class="stepper-content card shadow-sm">
+                        <div class="card-header bg-white">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                <h4 class="mb-0">
+                                    <span th:if="${iterStat.index == 0}">
+                                        <span
+                                            th:text="${#temporals.format(billings[0].periodEnd.minusMonths(3), 'MMMM d, yyyy')}">April
+                                            15, 2023</span>
+                                        <span> - </span>
+                                        <span th:text="${#temporals.format(billings[0].periodEnd, 'MMMM d, yyyy')}">July 14,
+                                            2023</span>
+                                    </span>
+                                    <span th:if="${iterStat.index > 0}">
+                                        <span
+                                            th:text="${#temporals.format(billings[iterStat.index].periodEnd.minusMonths(3), 'MMMM d, yyyy')}">January
+                                            15, 2023</span>
+                                        <span> - </span>
+                                        <span
+                                            th:text="${#temporals.format(billings[iterStat.index].periodEnd, 'MMMM d, yyyy')}">April
+                                            14, 2023</span>
+                                    </span>
+                                </h4>
+                                <!-- <span th:if="${iterStat.index == 0}" class="status-badge status-pending">Invoiced</span>
+                                <span th:if="${iterStat.index > 0}" class="status-badge status-paid">Paid on Apr 15, 2023</span> -->
+                                <div th:if="${not billing.drinkLogs.empty}">
+                                    <span th:if="${not billing.drinkLogs.empty} and ${billing.drinkLogs[0].isPaid == false}"
+                                    class="status-badge status-pending">Invoiced <span> | </span>
+                                    <button>Mark as Paid</button></span>
+                                    <span th:if="${not billing.drinkLogs.empty} and ${billing.drinkLogs[0].isPaid == true}"
+                                    class="status-badge status-pending">Paid</span>
+                                </div>
+                            </div>
+                            <!-- <p class="text-muted mb-0" th:if="${iterStat.index == 0}">Current billing cycle (not yet invoiced)</p> -->
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Drink</th>
+                                            <th>Qty</th>
+                                            <th>Current Price</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Sample data for demonstration -->
+                                        <th:block th:each=" log, iterStat : ${billing.drinkLogs}">
+                                        <th:block th:each="drinkQty : ${log.drinkQuantities}">
+                                        <tr th:if="${iterStat.index % 2 == 0}">
+                                            <td th:text="${#temporals.format(log.createdAt, 'MMMM d, yyyy')}">Jul 10, 2023</td>
+                                            <td th:text="${drinkQty.drink.name}">Beer</td>
+                                            <td th:text="${drinkQty.qty}">1</td>
+                                            <td th:text="${drinkQty.drink.price}">$3.50</td>
+                                            <td th:text="${log.total}">$3.50</td>
+                                        </tr>
+                                        <tr th:if="${iterStat.index % 2 != 0}" >
+                                            <td th:text="${#temporals.format(log.createdAt, 'MMMM d, yyyy')}" style="background-color: #75767d;">Jul 10, 2023</td>
+                                            <td th:text="${drinkQty.drink.name}" style="background-color: #75767d;">Beer</td>
+                                            <td th:text="${drinkQty.qty}" style="background-color: #75767d;">1</td>
+                                            <td th:text="${drinkQty.drink.price}" style="background-color: #75767d;">$3.50</td>
+                                            <td th:text="${log.total}" style="background-color: #75767d;">$3.50</td>
+                                        </tr>
+                                    </th:block>
+                                    </th:block>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="table-active">
+                                            <td colspan="5" class="text-end">
+                                                <strong th:if="${iterStat.index == 0}">Current Total:</strong>
+                                                <strong th:if="${iterStat.index > 0}">Period Total:</strong>
+                                            </td>
+                                            <td>
+                                                <!-- <strong th:if="${iterStat.index == 0}">$42.50</strong>
+                                                <strong th:if="${iterStat.index > 0}">$36.25</strong> -->
+                                                <strong th:text="${billing.total}">$42.50</strong>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </th:block>
-    </th:block>
-    </div>
+                </div>
+
 </div>

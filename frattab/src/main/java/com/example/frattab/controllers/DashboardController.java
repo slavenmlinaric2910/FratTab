@@ -49,9 +49,14 @@ public class DashboardController {
     }
 
     @GetMapping("/dashboard/member/{memberId}/billing")
-    public String getMemberBillingDetailPage(Model model, @PathVariable long memberId,  @RequestParam(defaultValue = "0") int page) {
+    public String getMemberBillingDetailPage(Model model, @PathVariable long memberId,
+            @RequestParam(defaultValue = "0") int page) {
         model.addAttribute("member", membersService.getMemberById(memberId));
         model.addAttribute("billings", billingService.getBillingRunsForMember(memberId, page));
+        model.addAttribute("currentBillingPeriod",
+                billingService.getDrinkLogsForCurrentBillingCycleForMember(memberId));
+        model.addAttribute("sumTotalForCurrentBillingPeriod",
+                billingService.getTotalForCurrentBillingCycleForMember(memberId));
         return "./billing-detail";
     }
 
