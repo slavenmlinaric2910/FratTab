@@ -1,24 +1,24 @@
 <div th:fragment="main" class="col-md-10 ms-sm-auto main-content">
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Settings</h1>
+        <h1 class="h2" th:text="#{settings.title}">Settings</h1>
     </div>
 
     <div class="card mb-4">
         <div class="card-header">
-            <h5 class="mb-0">Language Preferences</h5>
+            <h5 class="mb-0" th:text="#{settings.language.preferences}">Language Preferences</h5>
         </div>
         <div class="card-body">
             <form th:action="@{/dashboard/settings}" method="get">
                 <div class="mb-3">
-                    <label for="languageSelect" class="form-label">Select Language</label>
+                    <label for="languageSelect" class="form-label" th:text="#{settings.language.select.label}">Select Language</label>
                     <select class="form-select" id="languageSelect" name="lang" aria-label="Language selection">
-                        <option value="" disabled selected>Choose a language...</option>
-                        <option value="en" th:selected="${param.lang == 'en'}">English</option>
-                        <option value="de" th:selected="${param.lang == 'de'}">Deutsch (German)</option>
+                        <option value="" disabled selected th:text="#{settings.language.select.placeholder}">Choose a language...</option>
+                        <option value="en" th:selected="${param.lang == 'en'}" th:text="#{settings.language.english}">English</option>
+                        <option value="de" th:selected="${param.lang == 'de'}" th:text="#{settings.language.german}">Deutsch (German)</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="submit" class="btn btn-primary" th:text="#{settings.save.button}">Save Changes</button>
             </form>
         </div>
     </div>
