@@ -17,7 +17,7 @@
                 <!-- POST form wrapper around Send Billing -->
                 <form id="sendBillingForm" th:action="@{/dashboard/send-billing}" method="post" class="d-inline-block m-0 p-0">
                     <button type="button" class="btn  btn-primary" data-bs-toggle="modal" data-bs-target="#confirmBillingModal">
-                        <i class="fas fa-envelope"></i> Send Billing
+                        <i class="fas fa-envelope"></i> <span th:text="#{dashboard.sendbilling}">Send Billing</span>
                     </button>
                 </form>
 
