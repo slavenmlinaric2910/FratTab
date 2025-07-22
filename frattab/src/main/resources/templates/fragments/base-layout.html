@@ -1,7 +1,7 @@
 <!-- src/main/resources/templates/base-layout.html -->
 <div class="base-layout">
     <header>
-        <h1>Frattab - Fraternity Drink Tracker</h1>
+        <h1 th:text="#{home.title}">Frattab - Fraternity Drink Tracker</h1>
     </header>
     <main>
         <div class="container">
@@ -9,6 +9,6 @@
         </div>
     </main>
     <footer>
-        <p>&copy; 2025 Frattab. All rights reserved.</p>
+        <p th:text="#{home.footer}">&copy; 2025 Frattab. All rights reserved.</p>
     </footer>
 </div>

@@ -63,6 +63,11 @@ public class DashboardController {
         return "./billing-detail";
     }
 
+    @GetMapping("/dashboard/settings")
+    public String getSettingsPage() {
+        return "./settings";
+    }
+
     @PostMapping("/dashboard/drinklog/update")
     public String updateDrinkLog(@ModelAttribute DrinkQtyDto drinkQtyDto, DrinkLogDto drinkLogDto,
             RedirectAttributes redirectAttributes) {

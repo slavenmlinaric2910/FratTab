@@ -17,12 +17,12 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="bg-dark text-white text-center py-4 mb-4">
-        <h1>Frattab - Fraternity Drink Tracker</h1>
+        <h1 th:text="#{home.title}">Frattab - Fraternity Drink Tracker</h1>
     </header>
 
     <!-- Search bar -->
     <div class="search-bar">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search for members...">
+        <input type="text" id="searchInput" class="form-control" th:placeholder="#{home.search.placeholder}" placeholder="Search for members...">
     </div>
 
     <main class="container-fluid flex-grow-1 px-3 px-md-4">
@@ -37,7 +37,7 @@
 
 
     <footer class="bg-dark text-white text-center py-3 mt-auto">
-        <p>&copy; 2025 Frattab. All rights reserved.</p>
+        <p th:text="#{home.footer}">&copy; 2025 Frattab. All rights reserved.</p>
     </footer>
 
     <!-- Bootstrap JS Bundle with Popper -->
