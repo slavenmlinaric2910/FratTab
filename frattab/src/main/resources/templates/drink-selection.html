@@ -5,7 +5,12 @@
   <header class="bg-dark text-white text-center py-4 mb-4 position-relative">
     <button class="btn btn-outline-light position-absolute start-0 top-50 translate-middle-y ms-3"
             onclick="history.back()" th:text="#{drink.selection.back}">← Back</button>
-    <h2 class="h4 mb-0" th:text="${#messages.msgOrNull('drink.selection.header', ${member.firstName}, ${member.lastName})}">Select Drinks for ...</h2>
+    <!-- <h2 class="h4 mb-0" th:text="#{messages.msgOrNull('drink.selection.header', member.firstName, member.lastName)}""></h2> -->
+    <h2 class="h4 mb-0">
+      <span th:text="#{drink.selection.header}"></span>
+      <span th:text="${member.firstName + ' ' + member.lastName + ' | ' + member.nickName}"></span>
+    </h2>
+
   </header>
 
   <main class="container">
