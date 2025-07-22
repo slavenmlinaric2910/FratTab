@@ -1,0 +1,102 @@
+  .billing-container {
+                max-width: 900px;
+            }
+        
+            .user-info-card {
+                border-left: 4px solid #000;
+                border-radius: 0.35rem;
+            }
+        
+            .user-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 1.25rem;
+                font-weight: 600;
+            }
+        
+            /* Stepper Styles */
+            .stepper-wrapper {
+                position: relative;
+                padding-left: 45px;
+            }
+        
+            .stepper-item {
+                position: relative;
+                padding-bottom: 30px;
+            }
+        
+            .stepper-item:last-child {
+                padding-bottom: 0;
+            }
+        
+            .stepper-item::before {
+                content: "";
+                position: absolute;
+                left: -30px;
+                top: 0;
+                height: 100%;
+                width: 2px;
+                background-color: #e0e0e0;
+            }
+        
+            .stepper-item.active::before {
+                background-color: #000;
+            }
+        
+            .stepper-item:last-child::before {
+                height: 30px;
+            }
+        
+            .stepper-counter {
+                position: absolute;
+                left: -40px;
+                top: 0;
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                border-radius: 50%;
+                text-align: center;
+                background-color: #e0e0e0;
+                color: white;
+                font-weight: bold;
+                font-size: 12px;
+            }
+        
+            .stepper-item.active .stepper-counter {
+                background-color: #000;
+            }
+        
+            .stepper-label {
+                font-weight: 600;
+                margin-bottom: 10px;
+                color: #6c757d;
+            }
+        
+            .stepper-item.active .stepper-label {
+                color: #000;
+            }
+        
+            .stepper-content {
+                margin-bottom: 20px;
+            }
+        
+            /* Table Styles */
+            .table thead th {
+                border-top: none;
+                font-weight: 600;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: #6c757d;
+            }
+        
+            .table td,
+            .table th {
+                vertical-align: middle;
+                padding: 0.75rem;
+            }
+        
+            .table-sm td,
+            .table-sm th {
+                padding: 0.5rem;
+            }

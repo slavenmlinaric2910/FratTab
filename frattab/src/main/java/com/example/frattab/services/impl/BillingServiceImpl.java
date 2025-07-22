@@ -12,9 +12,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.frattab.dto.BillingRunDetailDto;
+import com.example.frattab.dto.DrinkLogDto;
 import com.example.frattab.dto.MemberBillDto;
 import com.example.frattab.models.BillingRun;
 import com.example.frattab.models.DrinkLog;
@@ -24,6 +30,7 @@ import com.example.frattab.repositories.DrinkLogRepository;
 import com.example.frattab.repositories.MemberRepository;
 import com.example.frattab.services.BillingService;
 import com.example.frattab.services.EmailService;
+import com.example.frattab.util.Mappers;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +42,7 @@ public class BillingServiceImpl implements BillingService {
         private final MemberRepository memberRepository;
         private final DrinkLogRepository drinkLogRepository;
         private final EmailService emailService; // ← inject the EmailService interface
+        private final Mappers mappers; // Assuming you have a Mappers utility for DTO conversion
 
         /**
          * Calculate each member’s bill for DrinkLog entries between:
@@ -143,5 +151,57 @@ public class BillingServiceImpl implements BillingService {
         @Override
         public List<DrinkLog> getDrinkLogsBetween(LocalDateTime startDate, LocalDateTime endDate) {
                 return drinkLogRepository.findByCreatedAtBetween(startDate, endDate);
+        }
+
+        @Override
+        public List<BillingRunDetailDto> getBillingRunsForMember(Long memberId, int page) {
+                int size = 4;
+                List<BillingRunDetailDto> billingRunDetails = new ArrayList<>();
+
+                Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "id");
+                Page<BillingRun> billingRuns = billingRunRepository.findAll(pageable);
+
+                billingRuns.forEach(run -> {
+                        BillingRunDetailDto detailDto = new BillingRunDetailDto();
+                        detailDto.setDrinkLogs(
+                                        drinkLogRepository
+                                                        .findAllByMemberIdAndBillingRunId(memberId, run.getId())
+                                                        .stream()
+                                                        .map(drinkLog -> {
+                                                                mappers.drinkLogToDrinkLogDto(drinkLog);
+                                                                if (detailDto.isInvoiced() != true
+                                                                                && drinkLog.isBilled() == true) {
+                                                                        detailDto.setInvoiced(true);
+                                                                }
+                                                                if (detailDto.isPaid() != true
+                                                                                && drinkLog.isPaid() == true) {
+                                                                        detailDto.setPaid(true);
+                                                                }
+                                                                detailDto.setTotal(detailDto.getTotal()
+                                                                                + drinkLog.getTotal());
+                                                                return mappers.drinkLogToDrinkLogDto(drinkLog);
+                                                        })
+                                                        .toList());
+
+                        detailDto.setPeriodEnd(run.getRunTimestamp());
+
+                        billingRunDetails.add(detailDto);
+                });
+
+                System.out.println("DrinkQty Logs: " + billingRunDetails);
+                return billingRunDetails;
+
+        }
+
+        @Override
+        public List<DrinkLog> getDrinkLogsForCurrentBillingCycleForMember(Long memberId) {
+                System.out.println("Current: " + drinkLogRepository.findAllByMemberIdAndIsBilledFalse(memberId));
+                return drinkLogRepository.findAllByMemberIdAndIsBilledFalse(memberId);
+
+        }
+
+        @Override
+        public Double getTotalForCurrentBillingCycleForMember(Long memberId) {
+                return drinkLogRepository.sumAndRoundTotalByMemberIdAndNotBilled(memberId);
         }
 }

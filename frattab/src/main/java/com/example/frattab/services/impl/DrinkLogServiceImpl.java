@@ -214,4 +214,5 @@ public class DrinkLogServiceImpl implements DrinkLogService {
         DrinkQtyDto drinkQtyDto = mapper.drinkQtyToDrinkQtyDto(drinkQty);
         return drinkQtyDto;
     }
+
 }
