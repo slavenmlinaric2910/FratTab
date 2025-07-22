@@ -97,6 +97,15 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <!-- Previous button -->
+                        <a th:href="@{/dashboard(logsPage=${page-1})}" th:classappend="${page == 0} ? ' disabled' : ''"
+                            class="btn btn-sm btn-outline-primary">Previous</a>
+                    
+                        <!-- Next button -->
+                        <a th:href="@{/dashboard(logsPage=${page+1})}" class="btn btn-sm btn-outline-primary">Next</a>
+                    </div>
+
                 </div>
             </div>
         </div>

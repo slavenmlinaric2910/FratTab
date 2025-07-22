@@ -39,12 +39,15 @@ public class DashboardController {
         model.addAttribute("membersCount", membersService.getMembersCount());
         model.addAttribute("monthlySpending", drinksService.getMonthlyDrinkSpending());
         model.addAttribute("recentLogs", drinkLogService.getRecentDrinkLogs(logsPage));
+        model.addAttribute("page", logsPage);
+
         return "./dashboard";
     }
 
     @GetMapping("/dashboard/members")
     public String getMembersPage(Model model, @RequestParam(defaultValue = "0") int page) {
         model.addAttribute("members", membersService.getAllMembers(page));
+        model.addAttribute("page", page);
         return "./members";
     }
 

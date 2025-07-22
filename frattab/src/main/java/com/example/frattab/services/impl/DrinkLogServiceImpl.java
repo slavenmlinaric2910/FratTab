@@ -179,7 +179,7 @@ public class DrinkLogServiceImpl implements DrinkLogService {
 
     @Override
     public Page<DrinkLog> getRecentDrinkLogs(int page) {
-        int size = 20;
+        int size = 10;
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
         System.out.println("Pageable: " + drinkLogRepository.findAll(pageable));
         return drinkLogRepository.findAll(pageable);
