@@ -6,15 +6,6 @@ import java.util.Map;
 public interface EmailService {
 
     /**
-     * Send a plain‐text email.
-     *
-     * @param to      the recipient’s email address
-     * @param subject the subject line
-     * @param body    the plain‐text body
-     */
-    void sendPlainTextEmail(String to, String subject, String body);
-
-    /**
      * Send an HTML email using a Thymeleaf template.
      *
      * @param to        the recipient’s email address
