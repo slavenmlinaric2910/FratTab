@@ -34,7 +34,7 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String getDashboardPage(Model model, @RequestParam(defaultValue = "0") int logsPage) {
-        model.addAttribute("drinks", drinksService.getAllDrinks());
+        model.addAttribute("drinks", drinksService.getAllActiveDrinks());
         model.addAttribute("members", membersService.getAllMembers());
         model.addAttribute("membersCount", membersService.getMembersCount());
         model.addAttribute("monthlySpending", drinksService.getMonthlyDrinkSpending());

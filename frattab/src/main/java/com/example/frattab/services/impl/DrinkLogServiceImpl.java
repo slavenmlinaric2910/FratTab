@@ -125,7 +125,7 @@ public class DrinkLogServiceImpl implements DrinkLogService {
     public DrinkSelectionDto prepareSelection(Long memberId) {
         // Fetch member and available drinks
         Member member = membersService.getMemberById(memberId);
-        List<Drink> drinks = drinksService.getAllDrinks();
+        List<Drink> drinks = drinksService.getAllActiveDrinks();
 
         // Initialize the form‐binding DTO
         DrinkLogDto drinkLogDto = new DrinkLogDto();

@@ -10,6 +10,10 @@ import com.example.frattab.models.Drink;
 public interface DrinksService {
     List<Drink> getAllDrinks();
 
+    List<Drink> getAllActiveDrinks();
+
+    ResponseDto deactivateDrink(Long drinkId);
+
     ResponseDto addNewDrink(DrinkDto drinkDto);
 
     ResponseDto addDrinkDelivery(DeliveryRequestDto deliveryDto);
@@ -17,4 +21,6 @@ public interface DrinksService {
     Double getMonthlyDrinkSpending();
 
     void updateDrinkQty(Long drinkId, int qty);
+
+
 }

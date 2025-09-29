@@ -23,6 +23,9 @@
     <!-- Add Drink Modal -->
     <div th:replace="fragments/dashboard/modals/addDrinkModal :: addDrinkModal"></div>
 
+    <!-- Delete Drink Confirmation Modal -->
+    <div th:replace="fragments/dashboard/modals/deleteDrinkModal :: deleteDrinkModal"></div>
+
     <!-- Delivery Modal -->
     <div th:replace="fragments/dashboard/modals/addDeliveryModal :: addDeliveryModal"></div>
 
@@ -35,6 +38,8 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script th:src="@{/js/custom.js}" defer></script>
+    <script th:src="@{/js/drink-management.js}" defer></script>
     <script th:src="@{/js/updateDrinkLog.js}" defer></script>
 </body>
 

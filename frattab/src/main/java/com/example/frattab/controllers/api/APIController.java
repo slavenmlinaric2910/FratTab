@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -34,7 +35,7 @@ public class APIController {
     }
     @GetMapping("/api/v1/drinks")
     public ResponseEntity getDrinks() {
-        return new ResponseEntity<>(drinksService.getAllDrinks(), HttpStatus.OK);
+        return new ResponseEntity<>(drinksService.getAllActiveDrinks(), HttpStatus.OK);
     }
 
     @GetMapping("/api/v1/drinklog/{drinkLogId}")
@@ -42,7 +43,10 @@ public class APIController {
         return new ResponseEntity<>(drinkLogService.getDrinkLogById(drinkLogId), HttpStatus.OK);
     }
     
-    
+    @PostMapping("/api/v1/drink/deactivate/{drinkId}")
+    public ResponseEntity deactivateDrink(@PathVariable long drinkId) {
+        return new ResponseEntity<>(drinksService.deactivateDrink(drinkId), HttpStatus.OK);
+    }
     
 
 }

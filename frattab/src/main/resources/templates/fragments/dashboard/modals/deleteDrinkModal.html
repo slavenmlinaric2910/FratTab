@@ -1,0 +1,38 @@
+<!-- Delete Confirmation Modal -->
+<div th:fragment="deleteDrinkModal" class="modal fade" id="deleteDrinkModal" tabindex="-1" aria-labelledby="deleteDrinkModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0" style="border-radius: 0; overflow: hidden;">
+            <div class="modal-header text-white" style="background-color: #000; border: none;">
+                <h5 class="modal-title fw-bold custom-modal-title" id="deleteDrinkModalLabel" style="text-transform: uppercase; letter-spacing: 1px;">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Confirm Deletion
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4" style="background-color: white;">
+                <div class="text-center">
+                    <div class="mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 80px; height: 80px; background-color: #f8f9fa; border: 2px solid #000;">
+                            <i class="fas fa-trash" style="font-size: 2.5rem; color: #000;"></i>
+                        </div>
+                    </div>
+                    <h6 class="mb-3 fw-bold custom-modal-text" style="color: #000; text-transform: uppercase; letter-spacing: 1px;">Are you sure you want to delete this drink?</h6>
+                    <div class="border p-3 mb-3" style="border-radius: 0; background-color: #f8f9fa; border-color: #000 !important;">
+                        <strong id="drinkNameToDelete" class="text-dark" style="text-transform: uppercase; letter-spacing: 1px;">Drink Name</strong> 
+                        <div class="small mt-1" style="color: #666;">will be deactivated and won't be available for ordering.</div>
+                    </div>
+                    <p class="small mb-0" style="font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 1px;">
+                        <i class="fas fa-info-circle me-1"></i>This action can be reversed by reactivating the drink in the database.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer border-0 p-4" style="background-color: white; border-top: 1px solid #eee;">
+                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" style="border-radius: 0; padding: 12px 30px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; font-weight: 600; background-color: #837e7e; border-color: #837e7e;">
+                    <i class="fas fa-times me-2"></i>Cancel
+                </button>
+                <button type="button" class="btn" id="confirmDeleteBtn" style="border-radius: 0; padding: 12px 30px; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; font-weight: 600; background-color: #000; border-color: #000; color: white;">
+                    <i class="fas fa-trash me-2"></i>Delete Drink
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

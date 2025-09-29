@@ -32,11 +32,28 @@ public class DrinksServiceImpl implements DrinksService {
     }
 
     @Override
+    public List<Drink> getAllActiveDrinks() {
+        return drinkRepository.findAllByIsActiveTrue();
+    }
+
+    @Override
     public ResponseDto addNewDrink(DrinkDto drinkDto) {
         ResponseDto responseDto = new ResponseDto();
         drinkRepository.save(mappers.drinkDtoToDrink(drinkDto));
         responseDto.setStatus("success");
         responseDto.setMessage("Drink " + drinkDto.getName() + " has been added successfully");
+        return responseDto;
+    }
+
+    @Override
+    public ResponseDto deactivateDrink(Long drinkId) {
+        ResponseDto responseDto = new ResponseDto();
+        Drink drink = drinkRepository.findById(drinkId)
+                .orElseThrow(() -> new RuntimeException("Drink not found"));
+        drink.setActive(false);
+        drinkRepository.save(drink);
+        responseDto.setStatus("success");
+        responseDto.setMessage("Drink " + drinkId + " has been deactivated successfully");
         return responseDto;
     }
 
