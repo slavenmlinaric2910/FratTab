@@ -38,6 +38,15 @@ services:
     build: ./frattab
     ports:
       - "80:12000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/frattabdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      MAILERSEND_EMAIL_SENDER: "test@example.com"
+      MAILERSEND_SMTP_USERNAME: "dummy"
+      MAILERSEND_SMTP_PASSWORD: "dummy"
+    depends_on:
+      - postgres
     networks:
       - app-network
 volumes:
